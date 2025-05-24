@@ -24,7 +24,7 @@
                     <input type="text" class="form-control" name="pusher_cluster" value="{{ $pusherSetting?->pusher_cluster }}">
                 </div>
 
-                <button type="submit" class="btn btn-primary">Update</button>
+                <button type="submit" class="btn btn-primary">Actualizar</button>
             </form>
         </div>
     </div>

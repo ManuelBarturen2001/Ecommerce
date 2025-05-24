@@ -66,16 +66,31 @@ class CategoryDataTable extends DataTable
                     ->setTableId('category-table')
                     ->columns($this->getColumns())
                     ->minifiedAjax()
-                    //->dom('Bfrtip')
                     ->orderBy(0)
                     ->selectStyleSingle()
+                    //->dom('Bfrtip')
                     ->buttons([
-                        Button::make('excel'),
-                        Button::make('csv'),
-                        Button::make('pdf'),
-                        Button::make('print'),
-                        Button::make('reset'),
-                        Button::make('reload')
+                        // Botones traducidos manualmente 👇
+                        Button::make('excel')->text('Excel'),
+                        Button::make('csv')->text('CSV'),
+                        Button::make('pdf')->text('PDF'),
+                        Button::make('print')->text('Imprimir'),
+                        Button::make('pageLength')->text('Mostrar'), // ✅ Botón válido extra
+                        Button::raw([
+                            'text' => 'Recargar',
+                            'action' => 'function ( e, dt, node, config ) {
+                                dt.ajax.reload();
+                            }'
+                        ])
+                    ])
+                    ->parameters([
+                        'language' => [
+                            // Puedes poner la URL a tu archivo local de idioma español o usar CDN oficial
+                            'url' => asset('backend/assets/json/es-MX.json'),
+                            // 'url' => '//cdn.datatables.net/plug-ins/1.11.5/i18n/es-ES.json',
+                        ],
+                        'responsive' => true,
+                        'autoWidth'   => false,
                     ]);
     }
 
@@ -85,17 +100,18 @@ class CategoryDataTable extends DataTable
     public function getColumns(): array
     {
         return [
-
-            Column::make('id')->width(100),
-            Column::make('icon')->width(300),
-            Column::make('name'),
-            Column::make('status')->width(200),
+            Column::make('id')->title('ID')->width(100),
+            Column::make('icon')->title('Ícono')->width(300),
+            Column::make('name')->title('Nombre'),
+            Column::make('status')->title('Estado')->width(200),
             Column::computed('action')
-            ->exportable(false)
-            ->printable(false)
-            ->width(200)
-            ->addClass('text-center'),
+                ->title('Acción')
+                ->exportable(false)
+                ->printable(false)
+                ->width(200)
+                ->addClass('text-center'),
         ];
+
     }
 
     /**

@@ -93,17 +93,18 @@ class ProductVariantItemDataTable extends DataTable
     public function getColumns(): array
     {
         return [
-            Column::make('id'),
-            Column::make('name'),
-            Column::make('variant_name'),
-            Column::make('price'),
-            Column::make('is_default'),
-            Column::make('status'),
+            Column::make('id')->title('ID'),
+            Column::make('name')->title('Nombre'),
+            Column::make('variant_name')->title('Variante'),
+            Column::make('price')->title('Precio'),
+            Column::make('is_default')->title('Por Defecto'),
+            Column::make('status')->title('Estado'),
             Column::computed('action')
-            ->exportable(false)
-            ->printable(false)
-            ->width(200)
-            ->addClass('text-center'),
+                ->exportable(false)
+                ->printable(false)
+                ->width(200)
+                ->addClass('text-center')
+                ->title('Acción'),
         ];
     }
 

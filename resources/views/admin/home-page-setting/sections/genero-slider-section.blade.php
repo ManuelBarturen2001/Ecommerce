@@ -40,7 +40,6 @@
                         </div>
                     </div>
                 </div>
-
                 <div class="text-right">
                     <button type="submit" class="btn btn-sm btn-primary px-4">Modificar</button>
                 </div>

@@ -44,17 +44,17 @@ class ProductDataTable extends DataTable
             ->addColumn('type', function($query){
                 switch ($query->product_type) {
                     case 'new_arrival':
-                        return '<i class="badge badge-success">New Arrival</i>';
+                        return '<i class="badge badge-success">Nuevo en Llegada</i>';
                         break;
                     case 'featured_product':
-                        return '<i class="badge badge-warning">Featured Product</i>';
+                        return '<i class="badge badge-warning">Destacado</i>';
                         break;
                     case 'top_product':
-                        return '<i class="badge badge-info">Top Product</i>';
+                        return '<i class="badge badge-info">Producto Top</i>';
                         break;
 
                     case 'best_product':
-                        return '<i class="badge badge-danger">Top Product</i>';
+                        return '<i class="badge badge-danger">Mejor Producto</i>';
                         break;
 
                     default:
@@ -117,19 +117,20 @@ class ProductDataTable extends DataTable
     public function getColumns(): array
     {
         return [
+            Column::make('id')->title('ID'),
+            Column::make('image')->title('Imagen'),
+            Column::make('name')->title('Nombre'),
+            Column::make('price')->title('Precio'),
+            Column::make('type')->title('Tipo')->width(150),
+            // Column::make('gender_id')->title('Género')->width(30),
+            Column::make('status')->title('Estado'),
 
-            Column::make('id'),
-            Column::make('image'),
-            Column::make('name'),
-            Column::make('price'),
-            Column::make('type')->width(150),
-            // Column::make('gender_id')->width(30),
-            Column::make('status'),
             Column::computed('action')
-            ->exportable(false)
-            ->printable(false)
-            ->width(200)
-            ->addClass('text-center'),
+                ->exportable(false)
+                ->printable(false)
+                ->width(200)
+                ->addClass('text-center')
+                ->title('Acción'),
         ];
     }
 

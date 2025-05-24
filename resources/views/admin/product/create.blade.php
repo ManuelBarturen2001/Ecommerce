@@ -1,11 +1,10 @@
 @extends('admin.layouts.master')
 
 @section('content')
-      <!-- Main Content -->
+      <!-- Contenido Principal -->
         <section class="section">
           <div class="section-header">
-            <h1>Product</h1>
-
+            <h1>Producto</h1>
           </div>
 
           <div class="section-body">
@@ -14,27 +13,27 @@
               <div class="col-12">
                 <div class="card">
                   <div class="card-header">
-                    <h4>Create Product</h4>
+                    <h4>Crear Producto</h4>
                   </div>
                   <div class="card-body">
                     <form action="{{route('admin.products.store')}}" method="POST" enctype="multipart/form-data">
                         @csrf
                         <div class="form-group">
-                            <label>Image</label>
+                            <label>Imagen</label>
                             <input type="file" class="form-control" name="image">
                         </div>
 
                         <div class="form-group">
-                            <label>Name</label>
+                            <label>Nombre</label>
                             <input type="text" class="form-control" name="name" value="{{old('name')}}">
                         </div>
 
                         <div class="row">
                             <div class="col-md-4">
                                 <div class="form-group">
-                                    <label for="inputState">Category</label>
+                                    <label for="inputState">Categoría</label>
                                     <select id="inputState" class="form-control main-category select2" name="category">
-                                      <option value="">Select</option>
+                                      <option value="">Seleccione</option>
                                       @foreach ($categories as $category)
                                         <option value="{{$category->id}}">{{$category->name}}</option>
                                       @endforeach
@@ -43,18 +42,17 @@
                             </div>
                             <div class="col-md-4">
                                 <div class="form-group">
-                                    <label for="inputState">Sub Category</label>
+                                    <label for="inputState">Subcategoría</label>
                                     <select id="inputState" class="form-control sub-category select2" name="sub_category">
-                                        <option value="">Select</option>
-
+                                        <option value="">Seleccione</option>
                                     </select>
                                 </div>
                             </div>
                             <div class="col-md-4">
                                 <div class="form-group">
-                                    <label for="inputState">Child Category</label>
+                                    <label for="inputState">Categoría hija</label>
                                     <select id="inputState" class="form-control child-category select2" name="child_category">
-                                        <option value="">Select</option>
+                                        <option value="">Seleccione</option>
                                     </select>
                                 </div>
                             </div>
@@ -62,9 +60,9 @@
                         <div class="row">
                             <div class="col-md-4">
                                 <div class="form-group">
-                                    <label for="inputState">Brand</label>
+                                    <label for="inputState">Marca</label>
                                     <select id="inputState" class="form-control select2" name="brand">
-                                        <option value="">Select</option>
+                                        <option value="">Seleccione</option>
                                         @foreach ($brands as $brand)
                                             <option value="{{$brand->id}}">{{$brand->name}}</option>
                                         @endforeach
@@ -75,7 +73,7 @@
                                 <div class="form-group">
                                     <label for="inputState">Género</label>
                                     <select id="inputState" class="form-control select2" name="gender">
-                                        <option value="">Select</option>
+                                        <option value="">Seleccione</option>
                                         @foreach ($genders as $gender)
                                             <option value="{{$gender->id}}">{{$gender->name}}</option>
                                         @endforeach
@@ -92,7 +90,7 @@
                         <div class="row">
                             <div class="col-md-4">
                                 <div class="form-group">
-                                    <label>Price</label>
+                                    <label>Precio</label>
                                     <input type="text" class="form-control" name="price" value="{{old('price')}}">
                                 </div>
                             </div>
@@ -104,13 +102,13 @@
                             </div>
                             <div class="col-md-4">
                                 <div class="form-group">
-                                    <label for="inputState">Product Type</label>
+                                    <label for="inputState">Tipo de Producto</label>
                                     <select id="inputState" class="form-control select2" name="product_type">
-                                        <option value="">Select</option>
-                                        <option value="new_arrival">New Arrival</option>
-                                        <option value="featured_product">Featured</option>
-                                        <option value="top_product">Top Product</option>
-                                        <option value="best_product">Best Product</option>
+                                        <option value="">Seleccione</option>
+                                        <option value="new_arrival">Nuevo</option>
+                                        <option value="featured_product">Destacado</option>
+                                        <option value="top_product">Top Producto</option>
+                                        <option value="best_product">Mejor Producto</option>
                                     </select>
                                 </div>
                             </div>
@@ -118,62 +116,57 @@
                         <div class="row">
                             <div class="col-md-4">
                                 <div class="form-group">
-                                    <label>Offer Price</label>
+                                    <label>Precio en Oferta</label>
                                     <input type="text" class="form-control" name="offer_price" value="{{old('offer_price')}}">
                                 </div>
                             </div>
                             <div class="col-md-4">
                                 <div class="form-group">
-                                    <label>Offer Start Date</label>
+                                    <label>Fecha de Inicio de Oferta</label>
                                     <input type="text" class="form-control datepicker" name="offer_start_date" value="{{old('offer_start_date')}}">
                                 </div>
                             </div>
                             <div class="col-md-4">
                                 <div class="form-group">
-                                    <label>Offer End Date</label>
+                                    <label>Fecha de Fin de Oferta</label>
                                     <input type="text" class="form-control datepicker" name="offer_end_date" value="{{old('offer_end_date')}}">
                                 </div>
                             </div>
                         </div>    
-                        
 
                         <div class="form-group">
-                            <label>Video Link</label>
+                            <label>Enlace de Video</label>
                             <input type="text" class="form-control" name="video_link" value="{{old('video_link')}}">
                         </div>
 
-
                         <div class="form-group">
-                            <label>Short Description</label>
+                            <label>Descripción Corta</label>
                             <textarea name="short_description" class="form-control"></textarea>
                         </div>
 
-
                         <div class="form-group">
-                            <label>Long Description</label>
+                            <label>Descripción Larga</label>
                             <textarea name="long_description" class="form-control summernote"></textarea>
                         </div>
 
-                        
-
                         <div class="form-group">
-                            <label>Seo Title</label>
+                            <label>Título SEO</label>
                             <input type="text" class="form-control" name="seo_title" value="{{old('seo_title')}}">
                         </div>
 
                         <div class="form-group">
-                            <label>Seo Description</label>
+                            <label>Descripción SEO</label>
                             <textarea name="seo_description" class="form-control"></textarea>
                         </div>
 
                         <div class="form-group">
-                            <label for="inputState">Status</label>
+                            <label for="inputState">Estado</label>
                             <select id="inputState" class="form-control select2" name="status">
-                              <option value="1">Active</option>
-                              <option value="0">Inactive</option>
+                              <option value="1">Activo</option>
+                              <option value="0">Inactivo</option>
                             </select>
                         </div>
-                        <button type="submmit" class="btn btn-primary">Create</button>
+                        <button type="submit" class="btn btn-primary">Crear</button>
                     </form>
                   </div>
 
@@ -197,7 +190,7 @@
                         id:id
                     },
                     success: function(data){
-                        $('.sub-category').html('<option value="">Select</option>')
+                        $('.sub-category').html('<option value="">Seleccione</option>')
 
                         $.each(data, function(i, item){
                             $('.sub-category').append(`<option value="${item.id}">${item.name}</option>`)
@@ -209,8 +202,7 @@
                 })
             })
 
-
-            /** get child categories **/
+            /** obtener categorías hijas **/
             $('body').on('change', '.sub-category', function(e){
                 let id = $(this).val();
                 $.ajax({
@@ -220,7 +212,7 @@
                         id:id
                     },
                     success: function(data){
-                        $('.child-category').html('<option value="">Select</option>')
+                        $('.child-category').html('<option value="">Seleccione</option>')
 
                         $.each(data, function(i, item){
                             $('.child-category').append(`<option value="${item.id}">${item.name}</option>`)

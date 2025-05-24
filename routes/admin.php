@@ -51,6 +51,7 @@ use App\Http\Controllers\Backend\WithdrawMehtodController;
 use App\Http\Controllers\Backend\ShippingRateDistanceController;
 use App\Http\Controllers\Backend\PoliticaAndPrivacidadController;
 use App\Http\Controllers\Backend\RetiroTiendaController;
+use App\Http\Controllers\Backend\CulqiSettingController;
 use App\Models\BlogCategory;
 use App\Models\FooterInfo;
 use App\Models\VendorCondition;
@@ -186,7 +187,7 @@ Route::put('pusher-setting-update', [SettingController::class, 'pusherSettingUpd
 
 
 /** home page setting route */
-Route::get('home-page-setting', [HomePageSettingController::class, 'index'])->name('home-page-setting');
+Route::get('home-page-setting', [HomePageSettingController::class, 'index'])->name('home-page-setting.index');
 Route::put('popular-category-section', [HomePageSettingController::class, 'updatePopularCategorySection'])->name('popular-category-section');
 
 Route::put('product-slider-section-one', [HomePageSettingController::class, 'updateProductSliderSectionOn'])->name('product-slider-section-one');
@@ -283,7 +284,9 @@ Route::resource('paypal-setting', PaypalSettingController::class);
 Route::put('stripe-setting/{id}', [StripeSettingController::class, 'update'])->name('stripe-setting.update');
 Route::put('razorpay-setting/{id}', [RazorpaySettingController::class, 'update'])->name('razorpay-setting.update');
 Route::put('cod-setting/{id}', [CodSettingController::class, 'update'])->name('cod-setting.update');
-
+Route::get('culqi-setting', [CulqiSettingController::class, 'index'])->name('culqi-setting');
+Route::put('culqi-setting', [CulqiSettingController::class, 'update'])->name('culqi-setting.update');
+Route::put('izipay-settings', [IziPaySettingController::class, 'update'])->name('izipay-settings.update');
 
 
 

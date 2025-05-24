@@ -9,9 +9,11 @@ use App\Models\Order;
 use App\Models\OrderProduct;
 use App\Models\PaypalSetting;
 use App\Models\Product;
+use App\Models\IziPaySettings;
 use App\Models\RazorpaySetting;
 use App\Models\StripeSetting;
 use App\Models\Transaction;
+use App\Models\CulqiSettings;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
@@ -19,6 +21,7 @@ use Srmklive\PayPal\Services\PayPal as PayPalClient;
 use Stripe\Charge;
 use Stripe\Stripe;
 use Razorpay\Api\Api;
+use Illuminate\Support\Facades\Log;
 
 class PaymentController extends Controller
 {
@@ -35,13 +38,145 @@ class PaymentController extends Controller
         $order = Order::where('invocie_id', $invoice_id)
                       ->where('user_id', Auth::id())
                       ->first();
-
+        if (!$invoice_id) {
+            toastr()->error('No se encontró información de la orden.', 'Error');
+            return redirect()->route('user.profile');
+        }
         if (!$order) {
             toastr()->error('No se encontró la orden o no tienes acceso.', 'Acceso denegado');
             return redirect()->route('user.payment');
         }
 
         return view('frontend.pages.payment-success', compact('order'));
+    }
+
+    public function createIziPaySession(Request $request)
+    {
+        try {
+            $iziPaySettings = IziPaySettings::first();
+            
+            if (!$iziPaySettings || !$iziPaySettings->status) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'IziPay no está configurado o habilitado'
+                ], 400);
+            }
+
+            $amount = getFinalPayableAmount() * 100; // IziPay usa centavos
+            $currency = $iziPaySettings->currency_name;
+            $orderId = 'ORDER_' . time() . '_' . rand(1000, 9999);
+
+            // URL base según el modo
+            $baseUrl = $iziPaySettings->mode === 'live' 
+                ? 'https://api.micuentaweb.pe' 
+                : 'https://api.micuentaweb.pe'; // Usar la misma URL para sandbox
+
+            // Datos para crear la sesión de pago
+            $paymentData = [
+                'amount' => $amount,
+                'currency' => $currency,
+                'orderId' => $orderId,
+                'customer' => [
+                    'email' => Auth::user()->email,
+                    'reference' => Auth::user()->id
+                ],
+                'metadata' => [
+                    'user_id' => Auth::user()->id,
+                    'cart_total' => getCartTotal(),
+                    'shipping_fee' => getShppingFee(),
+                    'discount' => getCartDiscount()
+                ]
+            ];
+
+            // Crear la sesión de pago usando la API REST de IziPay
+            $response = Http::withBasicAuth($iziPaySettings->shop_id, $iziPaySettings->private_key)
+                ->post($baseUrl . '/api-payment/V4/Charge/CreatePayment', $paymentData);
+
+            if ($response->successful()) {
+                $responseData = $response->json();
+                
+                // Guardar el ID de sesión en la sesión para referencia posterior
+                Session::put('izipay_session_id', $responseData['answer']['formToken']);
+                Session::put('izipay_order_id', $orderId);
+
+                return response()->json([
+                    'success' => true,
+                    'formToken' => $responseData['answer']['formToken'],
+                    'publicKey' => $iziPaySettings->public_key,
+                    'shopId' => $iziPaySettings->shop_id
+                ]);
+            } else {
+                Log::error('Error al crear sesión IziPay: ' . $response->body());
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Error al crear la sesión de pago'
+                ], 500);
+            }
+
+        } catch (\Exception $e) {
+            Log::error('Error en createIziPaySession: ' . $e->getMessage());
+            return response()->json([
+                'success' => false,
+                'message' => 'Error interno del servidor'
+            ], 500);
+        }
+    }
+
+    public function handleIziPayReturn(Request $request)
+    {
+        try {
+            $iziPaySettings = IziPaySettings::first();
+            
+            // Verificar la firma HMAC
+            $krHash = $request->get('kr-hash');
+            $krHashKey = $request->get('kr-hash-key');
+            $krAnswer = $request->get('kr-answer');
+
+            // Verificar la integridad de los datos
+            $calculatedHash = hash_hmac('sha256', $krAnswer, $iziPaySettings->hmac_sha256_key);
+            
+            if (!hash_equals($calculatedHash, $krHash)) {
+                Log::error('Hash IziPay inválido');
+                toastr()->error('Error en la verificación del pago', 'Error');
+                return redirect()->route('user.payment');
+            }
+
+            // Decodificar la respuesta
+            $paymentData = json_decode($krAnswer, true);
+            
+            if ($paymentData['orderStatus'] === 'PAID') {
+                // Pago exitoso
+                $transactionId = $paymentData['uuid'];
+                $paidAmount = $paymentData['orderDetails']['orderTotalAmount'] / 100; // Convertir de centavos
+                
+                // Crear la orden
+                $order = $this->storeOrder(
+                    'IziPay',
+                    'paid',
+                    $transactionId,
+                    $paidAmount,
+                    $iziPaySettings->currency_name
+                );
+
+                // Limpiar el carrito y sesiones
+                \Cart::destroy();
+                Session::forget(['address', 'shipping_method', 'coupon', 'izipay_session_id', 'izipay_order_id']);
+
+                toastr()->success('Pago procesado exitosamente!', 'Éxito');
+                return redirect()->route('user.payment.success', $order->invocie_id);
+                
+            } else {
+                // Pago fallido
+                Log::warning('Pago IziPay fallido: ' . json_encode($paymentData));
+                toastr()->error('El pago no pudo ser procesado', 'Error de pago');
+                return redirect()->route('user.payment');
+            }
+
+        } catch (\Exception $e) {
+            Log::error('Error en handleIziPayReturn: ' . $e->getMessage());
+            toastr()->error('Error al procesar el pago', 'Error');
+            return redirect()->route('user.payment');
+        }
     }
 
     public function storeOrder($paymentMethod, $paymentStatus, $transactionId, $paidAmount, $paidCurrencyName)
@@ -116,6 +251,184 @@ class PaymentController extends Controller
         Session::forget('address');
         Session::forget('shipping_method');
         Session::forget('coupon');
+    }
+
+    public function culqiPayment(Request $request)
+    {
+        try {
+            // Validar el token de Culqi
+            $request->validate([
+                'culqi_token' => 'required|string',
+            ]);
+
+            // Verificar configuración de Culqi
+            $culqiSetting = CulqiSettings::first();
+            
+            if (!$culqiSetting) {
+                Log::error('Culqi: No se encontró configuración en la base de datos');
+                return response()->json(['error' => 'Configuración de Culqi no encontrada'], 400);
+            }
+            
+            if ($culqiSetting->status != 1) {
+                Log::error('Culqi: Servicio desactivado en configuración');
+                return response()->json(['error' => 'Culqi está desactivado'], 400);
+            }
+
+            // Verificar claves
+            if (empty($culqiSetting->public_key) || empty($culqiSetting->secret_key)) {
+                Log::error('Culqi: Claves no configuradas');
+                return response()->json(['error' => 'Claves de Culqi no configuradas'], 400);
+            }
+
+            // Verificar sesión de dirección
+            $address = Session::get('address');
+            if (!$address || !isset($address['email'])) {
+                Log::error('Culqi: No se encontró información de dirección en la sesión');
+                return response()->json(['error' => 'Información de dirección no válida'], 400);
+            }
+
+            // Configurar Culqi
+            $secretKey = $culqiSetting->secret_key;
+            $environment = $culqiSetting->mode === 'live' 
+                ? 'https://api.culqi.com' 
+                : 'https://apisandbox.culqi.com';
+            
+            // Obtener el monto final
+            $finalAmount = getFinalPayableAmount();
+            if (!$finalAmount || $finalAmount <= 0) {
+                Log::error('Culqi: Monto inválido - ' . $finalAmount);
+                return response()->json(['error' => 'Monto de pago inválido'], 400);
+            }
+
+            // Crear cargo en Culqi
+            $charge_data = [
+                'amount' => (int)($finalAmount * 100), // Culqi maneja centavos
+                'currency_code' => $culqiSetting->currency_name,
+                'email' => $address['email'],
+                'source_id' => $request->culqi_token,
+                'description' => 'Compra en ' . config('app.name', 'Tienda Online'),
+                'capture' => true,
+                'metadata' => [
+                    'order_id' => 'ORDER_' . time(),
+                    'customer_name' => $address['name'] ?? 'Cliente'
+                ]
+            ];
+
+            Log::info('Culqi: Enviando datos de cargo', [
+                'amount' => $charge_data['amount'],
+                'currency' => $charge_data['currency_code'],
+                'email' => $charge_data['email']
+            ]);
+
+            $charge = $this->createCulqiCharge($charge_data, $secretKey, $environment);
+
+            if (!$charge) {
+                Log::error('Culqi: No se recibió respuesta del API');
+                return response()->json(['error' => 'Error de comunicación con Culqi'], 500);
+            }
+
+            Log::info('Culqi: Respuesta recibida', $charge);
+
+            // Verificar si el pago fue exitoso
+            if (isset($charge['id']) && isset($charge['outcome']) && $charge['outcome']['type'] === 'venta_exitosa') {
+                // Crear orden
+                $order = $this->storeOrder(
+                    'Culqi',
+                    'completed',
+                    $charge['id'],
+                    $finalAmount,
+                    $culqiSetting->currency_name
+                );
+                
+                // Guardar invoice_id en sesión para la página de éxito
+                Session::put('last_order_invoice', $order->invocie_id);
+                
+                // Limpiar carrito y sesión
+                $this->clearSession();
+                
+                return response()->json([
+                    'status' => 'success',
+                    'redirect_url' => route('user.payment.success', ['invoice_id' => $order->invocie_id]),
+                    'message' => 'Pago procesado exitosamente'
+                ]);
+                
+            } else {
+                $errorMessage = 'Error al procesar el pago';
+                
+                if (isset($charge['user_message'])) {
+                    $errorMessage = $charge['user_message'];
+                } elseif (isset($charge['merchant_message'])) {
+                    $errorMessage = $charge['merchant_message'];
+                } elseif (isset($charge['outcome']['type'])) {
+                    $errorMessage = 'Pago rechazado: ' . $charge['outcome']['type'];
+                }
+                
+                Log::error('Culqi: Pago no exitoso', $charge);
+                
+                return response()->json([
+                    'error' => $errorMessage
+                ], 400);
+            }
+
+        } catch (\Illuminate\Validation\ValidationException $e) {
+            Log::error('Culqi: Error de validación', $e->errors());
+            return response()->json(['error' => 'Datos de pago inválidos'], 400);
+        } catch (\Exception $e) {
+            Log::error('Culqi: Error general - ' . $e->getMessage(), [
+                'trace' => $e->getTraceAsString()
+            ]);
+            return response()->json(['error' => 'Error interno del servidor'], 500);
+        }
+    }
+
+    /** Create charge in Culqi */
+    private function createCulqiCharge($data, $secretKey, $environment)
+    {
+        $url = $environment . '/v2/charges';
+        
+        Log::info('Culqi: Enviando request a ' . $url);
+        
+        $curl = curl_init();
+        
+        curl_setopt_array($curl, [
+            CURLOPT_URL => $url,
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_ENCODING => '',
+            CURLOPT_MAXREDIRS => 10,
+            CURLOPT_TIMEOUT => 30, // Aumentar timeout
+            CURLOPT_FOLLOWLOCATION => true,
+            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+            CURLOPT_CUSTOMREQUEST => 'POST',
+            CURLOPT_POSTFIELDS => json_encode($data),
+            CURLOPT_HTTPHEADER => [
+                'Authorization: Bearer ' . $secretKey,
+                'Content-Type: application/json',
+            ],
+            CURLOPT_SSL_VERIFYPEER => true,
+            CURLOPT_SSL_VERIFYHOST => 2,
+        ]);
+        
+        $response = curl_exec($curl);
+        $httpCode = curl_getinfo($curl, CURLINFO_HTTP_CODE);
+        $curlError = curl_error($curl);
+        
+        curl_close($curl);
+        
+        if ($curlError) {
+            Log::error('Culqi: Error de cURL - ' . $curlError);
+            return false;
+        }
+        
+        Log::info('Culqi: Respuesta HTTP ' . $httpCode . ' - ' . $response);
+        
+        $result = json_decode($response, true);
+        
+        if ($httpCode !== 200 && $httpCode !== 201) {
+            Log::error('Culqi: Error HTTP ' . $httpCode, ['response' => $response]);
+            return $result; // Devolver el resultado para manejar el error específico
+        }
+        
+        return $result;
     }
 
 

@@ -43,26 +43,26 @@ class SellerProductsDataTable extends DataTable
             return "<img width='70px' src='".asset($query->thumb_image)."' ></img>";
         })
         ->addColumn('type', function($query){
-            switch ($query->product_type) {
-                case 'new_arrival':
-                    return '<i class="badge badge-success">New Arrival</i>';
-                    break;
-                case 'featured_product':
-                    return '<i class="badge badge-warning">Featured Product</i>';
-                    break;
-                case 'top_product':
-                    return '<i class="badge badge-info">Top Product</i>';
-                    break;
+                switch ($query->product_type) {
+                    case 'new_arrival':
+                        return '<i class="badge badge-success">Nuevo en Llegada</i>';
+                        break;
+                    case 'featured_product':
+                        return '<i class="badge badge-warning">Destacado</i>';
+                        break;
+                    case 'top_product':
+                        return '<i class="badge badge-info">Producto Top</i>';
+                        break;
 
-                case 'best_product':
-                    return '<i class="badge badge-danger">Top Product</i>';
-                    break;
+                    case 'best_product':
+                        return '<i class="badge badge-danger">Mejor Producto</i>';
+                        break;
 
-                default:
-                    return '<i class="badge badge-dark">None</i>';
-                    break;
-            }
-        })
+                    default:
+                        return '<i class="badge badge-dark">None</i>';
+                        break;
+                }
+            })
         ->addColumn('status', function($query){
             if($query->status == 1){
                 $button = '<label class="custom-switch mt-2">
@@ -128,19 +128,20 @@ class SellerProductsDataTable extends DataTable
     public function getColumns(): array
     {
         return [
-            Column::make('id'),
-            Column::make('vendor'),
-            Column::make('image'),
-            Column::make('name'),
-            Column::make('price'),
-            Column::make('type')->width(150),
-            Column::make('status'),
-            Column::make('approve')->width(100),
+            Column::make('id')->title('ID'),
+            Column::make('vendor')->title('Vendedor'),
+            Column::make('image')->title('Imagen'),
+            Column::make('name')->title('Nombre'),
+            Column::make('price')->title('Precio'),
+            Column::make('type')->title('Tipo')->width(150),
+            Column::make('status')->title('Estado'),
+            Column::make('approve')->title('Aprobado')->width(100),
             Column::computed('action')
-            ->exportable(false)
-            ->printable(false)
-            ->width(200)
-            ->addClass('text-center'),
+                ->exportable(false)
+                ->printable(false)
+                ->width(200)
+                ->addClass('text-center')
+                ->title('Acción'),
         ];
     }
 

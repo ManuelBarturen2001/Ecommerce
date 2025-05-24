@@ -68,12 +68,25 @@ class AdminReviewDataTable extends DataTable
                     ->orderBy(0)
                     ->selectStyleSingle()
                     ->buttons([
-                        Button::make('excel'),
-                        Button::make('csv'),
-                        Button::make('pdf'),
-                        Button::make('print'),
-                        Button::make('reset'),
-                        Button::make('reload')
+                        // Botones traducidos manualmente 👇
+                        Button::make('excel')->text('Excel'),
+                        Button::make('csv')->text('CSV'),
+                        Button::make('pdf')->text('PDF'),
+                        Button::make('print')->text('Imprimir'),
+                        Button::make('pageLength')->text('Mostrar'), // ✅ Botón válido extra
+                        Button::raw([
+                                        'text' => 'Recargar',
+                                        'action' => 'function ( e, dt, node, config ) {
+                                            dt.ajax.reload();
+                                        }'
+                                    ])
+                    ])
+                    ->parameters([
+                        'language' => [
+                            'url' => asset('backend/assets/json/es-MX.json'), // Ruta a tu archivo de traducción español
+                        ],
+                        'responsive' => true,
+                        'autoWidth' => false,
                     ]);
     }
 
@@ -83,12 +96,12 @@ class AdminReviewDataTable extends DataTable
     public function getColumns(): array
     {
         return [
-            Column::make('id'),
-            Column::make('product'),
-            Column::make('user'),
-            Column::make('rating'),
-            Column::make('review'),
-            Column::make('status')
+            Column::make('id')->title('ID'),
+            Column::make('product')->title('Producto'),
+            Column::make('user')->title('Usuario'),
+            Column::make('rating')->title('Calificación'),
+            Column::make('review')->title('Reseña'),
+            Column::make('status')->title('Estado'),
         ];
     }
 

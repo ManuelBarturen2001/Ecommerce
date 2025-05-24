@@ -1,10 +1,10 @@
 @extends('admin.layouts.master')
 
 @section('content')
-      <!-- Main Content -->
+      <!-- Contenido Principal -->
         <section class="section">
           <div class="section-header">
-            <h1>Orders</h1>
+            <h1>Órdenes</h1>
           </div>
 
           <div class="section-body">
@@ -13,7 +13,7 @@
               <div class="col-12">
                 <div class="card">
                   <div class="card-header">
-                    <h4>All Shipped Orders</h4>
+                    <h4>Todas las Órdenes en Tránsito</h4>
                   </div>
                   <div class="card-body">
                     {{ $dataTable->table() }}

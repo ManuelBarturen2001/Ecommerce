@@ -1,10 +1,10 @@
 @extends('admin.layouts.master')
 
 @section('content')
-      <!-- Main Content -->
+      <!-- Contenido Principal -->
         <section class="section">
           <div class="section-header">
-            <h1>Sellers Pending Products</h1>
+            <h1>Productos Pendientes de Vendedores</h1>
           </div>
 
           <div class="section-body">
@@ -13,7 +13,7 @@
               <div class="col-12">
                 <div class="card">
                   <div class="card-header">
-                    <h4>All Seller Pending Products</h4>
+                    <h4>Todos los Productos Pendientes de Vendedores</h4>
                   </div>
                   <div class="card-body">
                     {{ $dataTable->table() }}
@@ -44,6 +44,9 @@
                         status: isChecked,
                         id: id
                     },
+                    headers: {
+        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+    },
                     success: function(data){
                         toastr.success(data.message)
                     },
@@ -54,7 +57,7 @@
 
             })
 
-            // change approve status
+            // cambiar estado de aprobación
             $('body').on('change', '.is_approve', function(){
                 let value = $(this).val();
                 let id = $(this).data('id');
@@ -66,6 +69,9 @@
                         value: value,
                         id: id
                     },
+                    headers: {
+        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+    },
                     success: function(data){
                         toastr.success(data.message)
                         window.location.reload();

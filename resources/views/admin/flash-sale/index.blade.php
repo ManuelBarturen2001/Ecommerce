@@ -1,10 +1,10 @@
 @extends('admin.layouts.master')
 
 @section('content')
-      <!-- Main Content -->
+      <!-- Contenido Principal -->
         <section class="section">
           <div class="section-header">
-            <h1>Flash Sale</h1>
+            <h1>Venta Flash</h1>
           </div>
 
           <div class="section-body">
@@ -13,7 +13,7 @@
               <div class="col-12">
                 <div class="card">
                   <div class="card-header">
-                    <h4>Flash Sale End Date</h4>
+                    <h4>Fecha de Finalización de la Venta Flash</h4>
 
                   </div>
                   <div class="card-body">
@@ -22,7 +22,7 @@
                         @method('PUT')
                         <div class="">
                             <div class="form-group">
-                                <label>Sale End Date</label>
+                                <label>Fecha de Fin de Venta</label>
                                 <input type="text" class="form-control datepicker" name="end_date" value="{{@$flashSaleDate->end_date}}">
                             </div>
                             <button type="submit" class="btn btn-primary">Guardar</button>
@@ -42,16 +42,16 @@
               <div class="col-12">
                 <div class="card">
                   <div class="card-header">
-                    <h4>Add Flash Sale Products</h4>
+                    <h4>Agregar Productos a la Venta Flash</h4>
 
                   </div>
                   <div class="card-body">
                     <form action="{{route('admin.flash-sale.add-product')}}" method="POST">
                         @csrf
                         <div class="form-group">
-                            <label>Add Product</label>
+                            <label>Agregar Producto</label>
                             <select name="product" id="" class="form-control select2">
-                                <option value="">Select</option>
+                                <option value="">Seleccione</option>
                                 @foreach ($products as $product)
                                 <option value="{{$product->id}}">{{$product->name}}</option>
                                 @endforeach
@@ -61,26 +61,26 @@
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <label>Show at home?</label>
+                                    <label>¿Mostrar en la página principal?</label>
                                     <select name="show_at_home" id="" class="form-control">
-                                        <option value="">Select</option>
-                                        <option value="1">Yes</option>
+                                        <option value="">Seleccione</option>
+                                        <option value="1">Sí</option>
                                         <option value="0">No</option>
                                     </select>
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <label>Status</label>
+                                    <label>Estado</label>
                                     <select name="status" id="" class="form-control">
-                                        <option value="">Select</option>
-                                        <option value="1">Active</option>
-                                        <option value="0">Inactive</option>
+                                        <option value="">Seleccione</option>
+                                        <option value="1">Activo</option>
+                                        <option value="0">Inactivo</option>
                                     </select>
                                 </div>
                             </div>
                         </div>
-                        <button type="submit" class="btn btn-primary">Save</button>
+                        <button type="submit" class="btn btn-primary">Guardar</button>
 
                     </form>
                   </div>
@@ -97,7 +97,7 @@
               <div class="col-12">
                 <div class="card">
                   <div class="card-header">
-                    <h4>All Flash Sale Products</h4>
+                    <h4>Todos los Productos de la Venta Flash</h4>
 
                   </div>
                   <div class="card-body">
@@ -118,7 +118,7 @@
 
     <script>
         $(document).ready(function(){
-            // chage the flash sale status
+            // Cambiar el estado de la venta flash
             $('body').on('click', '.change-status', function(){
                 let isChecked = $(this).is(':checked');
                 let id = $(this).data('id');
@@ -130,6 +130,9 @@
                         status: isChecked,
                         id: id
                     },
+                    headers: {
+        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+    },
                     success: function(data){
                         toastr.success(data.message)
                     },
@@ -140,7 +143,7 @@
 
             })
 
-            // chage show at home status
+            // Cambiar el estado de mostrar en la página principal
             $('body').on('click', '.change-at-home-status', function(){
                 let isChecked = $(this).is(':checked');
                 let id = $(this).data('id');

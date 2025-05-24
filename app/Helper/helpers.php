@@ -134,4 +134,80 @@ function getCurrencyIcon()
     return $icon->currency_icon;
 }
 
+if (!function_exists('getCulqiSettings')) {
+    /**
+     * Get Culqi settings
+     */
+    function getCulqiSettings()
+    {
+        return \App\Models\CulqiSettings::first();
+    }
+}
 
+if (!function_exists('isCulqiActive')) {
+    /**
+     * Check if Culqi is active
+     */
+    function isCulqiActive()
+    {
+        $culqi = getCulqiSettings();
+        return $culqi && $culqi->status == 1;
+    }
+}
+
+if (!function_exists('getCulqiPublicKey')) {
+    /**
+     * Get Culqi public key
+     */
+    function getCulqiPublicKey()
+    {
+        $culqi = getCulqiSettings();
+        return $culqi ? $culqi->public_key : null;
+    }
+}
+
+if (!function_exists('getCulqiSecretKey')) {
+    /**
+     * Get Culqi secret key
+     */
+    function getCulqiSecretKey()
+    {
+        $culqi = getCulqiSettings();
+        return $culqi ? $culqi->secret_key : null;
+    }
+}
+
+if (!function_exists('getCulqiEnvironment')) {
+    /**
+     * Get Culqi environment URL
+     */
+    function getCulqiEnvironment()
+    {
+        $culqi = getCulqiSettings();
+        if (!$culqi) return 'https://apisandbox.culqi.com';
+        
+        return $culqi->mode === 'live' 
+            ? 'https://api.culqi.com' 
+            : 'https://apisandbox.culqi.com';
+    }
+}
+
+if (!function_exists('formatAmountForCulqi')) {
+    /**
+     * Format amount for Culqi (convert to cents)
+     */
+    function formatAmountForCulqi($amount)
+    {
+        return (int)($amount * 100);
+    }
+}
+
+if (!function_exists('formatAmountFromCulqi')) {
+    /**
+     * Format amount from Culqi (convert from cents)
+     */
+    function formatAmountFromCulqi($amount)
+    {
+        return $amount / 100;
+    }
+}

@@ -1,11 +1,10 @@
-
 @extends('admin.layouts.master')
 
 @section('content')
-      <!-- Main Content -->
+      <!-- Contenido Principal -->
         <section class="section">
           <div class="section-header">
-            <h1>Vendor Request</h1>
+            <h1>Solicitud de Vendedor</h1>
           </div>
 
           <div class="section-body">
@@ -16,39 +15,33 @@
                     <div class="table-responsive">
                       <table class="table table-striped table-hover table-md">
                         <tr>
-                          <td>User Name: </td>
+                          <td>Nombre de Usuario: </td>
                           <td>{{$vendor->user->name}}</td>
                         </tr>
                         <tr>
-                            <td>User Email: </td>
+                            <td>Email del Usuario: </td>
                             <td>{{$vendor->user->email}}</td>
                         </tr>
                         <tr>
-                            <td>Shop Name: </td>
+                            <td>Nombre de la Tienda: </td>
                             <td>{{$vendor->shop_name}}</td>
                         </tr>
                         <tr>
-                            <td>Shop Email: </td>
+                            <td>Email de la Tienda: </td>
                             <td>{{$vendor->email}}</td>
-
                         </tr>
                         <tr>
-                            <td>Shop Phone: </td>
+                            <td>Teléfono de la Tienda: </td>
                             <td>{{$vendor->phone}}</td>
-
-
                         </tr>
                         <tr>
-                            <td>Shop Address: </td>
+                            <td>Dirección de la Tienda: </td>
                             <td>{{$vendor->address}}</td>
-
                         </tr>
                         <tr>
-                            <td>Description: </td>
+                            <td>Descripción: </td>
                             <td>{{$vendor->description}}</td>
                         </tr>
-
-
                       </table>
                     </div>
                     <div class="row mt-4">
@@ -58,23 +51,20 @@
                                 @csrf
                                 @method('PUT')
                                 <div class="form-group">
-                                    <label for="">Action</label>
+                                    <label for="">Acción</label>
                                     <select name="status" class="form-control" >
-                                        <option {{$vendor->status == 0 ? 'selected': ''}} value="0">Pending</option>
-                                        <option {{$vendor->status == 1 ? 'selected': ''}} value="1">Approve</option>
-
+                                        <option {{$vendor->status == 0 ? 'selected': ''}} value="0">Pendiente</option>
+                                        <option {{$vendor->status == 1 ? 'selected': ''}} value="1">Aprobar</option>
                                     </select>
                                 </div>
-                                <button class="btn btn-primary"> Update</button>
+                                <button class="btn btn-primary"> Actualizar</button>
                             </form>
-
                         </div>
                       </div>
                     </div>
                   </div>
                 </div>
               </div>
-
             </div>
           </div>
         </section>

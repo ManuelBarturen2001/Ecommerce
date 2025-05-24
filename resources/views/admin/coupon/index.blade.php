@@ -1,10 +1,10 @@
 @extends('admin.layouts.master')
 
 @section('content')
-      <!-- Main Content -->
+      <!-- Contenido Principal -->
         <section class="section">
           <div class="section-header">
-            <h1>Coupons</h1>
+            <h1>Cupones</h1>
           </div>
 
           <div class="section-body">
@@ -13,9 +13,9 @@
               <div class="col-12">
                 <div class="card">
                   <div class="card-header">
-                    <h4>All Coupons</h4>
+                    <h4>Todos los Cupones</h4>
                     <div class="card-header-action">
-                        <a href="{{route('admin.coupons.create')}}" class="btn btn-primary"><i class="fas fa-plus"></i> Create New</a>
+                        <a href="{{route('admin.coupons.create')}}" class="btn btn-primary"><i class="fas fa-plus"></i> Crear Nuevo</a>
                     </div>
                   </div>
                   <div class="card-body">
@@ -47,15 +47,18 @@
                         status: isChecked,
                         id: id
                     },
+                    headers: {
+        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+    },
                     success: function(data){
-                        toastr.success(data.message)
+                        toastr.success(data.message);
                     },
                     error: function(xhr, status, error){
                         console.log(error);
                     }
-                })
+                });
 
-            })
-        })
+            });
+        });
     </script>
 @endpush

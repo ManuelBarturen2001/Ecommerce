@@ -31,7 +31,6 @@
                                         @endforeach
                                     </select>
                                 </div>
-
                                 <!-- Campo para min_km -->
                                 <div class="form-group">
                                     <label for="min_km">Distancia Mínima (km)</label>

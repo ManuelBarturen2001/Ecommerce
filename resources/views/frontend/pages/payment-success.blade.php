@@ -72,7 +72,7 @@
                                             $variants = json_decode($item->variants, true);
                                         @endphp
                                         @foreach ($variants as $key => $variant)
-                                            {{ $key }}: {{ $variant }}@if (!$loop->last), @endif
+                                            {{ $key }}: {{ is_array($variant) ? implode(', ', $variant) : $variant }}@if (!$loop->last), @endif
                                         @endforeach
                                     </p>
                                     @endif

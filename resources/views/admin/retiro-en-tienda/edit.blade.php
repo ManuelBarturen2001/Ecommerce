@@ -23,7 +23,6 @@
                             <form action="{{ route('admin.retiro-en-tienda.update', $tienda->id) }}" method="POST">
                                 @csrf
                                 @method('PUT')
-                                
                                 <div class="row">
                                     <div class="col-md-6">
                                         <div class="form-group">

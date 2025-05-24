@@ -39,9 +39,9 @@ class VendorRequestDataTable extends DataTable
             })
             ->addColumn('status', function($query){
                 if($query->status == 0){
-                    return "<span class='badge bg-warning'>pending</span>";
-                }else {
-                    return "<span class='badge bg-success'>active</span>";
+                    return "<span class='badge bg-warning'>Pendiente</span>";
+                } else {
+                    return "<span class='badge bg-success'>Activo</span>";
                 }
             })
             ->rawColumns(['status', 'action'])
@@ -85,17 +85,18 @@ class VendorRequestDataTable extends DataTable
     {
         return [
 
-            Column::make('id'),
-            Column::make('user_name'),
-            Column::make('shop_name'),
-            Column::make('shop_email'),
-            Column::make('status'),
+            Column::make('id')->title('ID'),
+            Column::make('user_name')->title('Nombre de Usuario'),
+            Column::make('shop_name')->title('Nombre de la Tienda'),
+            Column::make('shop_email')->title('Correo de la Tienda'),
+            Column::make('status')->title('Estado'),
 
             Column::computed('action')
-            ->exportable(false)
-            ->printable(false)
-            ->width(60)
-            ->addClass('text-center'),
+                ->exportable(false)
+                ->printable(false)
+                ->width(60)
+                ->addClass('text-center')
+                ->title('Acción'),
         ];
     }
 

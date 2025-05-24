@@ -75,16 +75,32 @@ class BrandDataTable extends DataTable
                     ->setTableId('brand-table')
                     ->columns($this->getColumns())
                     ->minifiedAjax()
-                    //->dom('Bfrtip')
                     ->orderBy(0)
                     ->selectStyleSingle()
+                    //->dom('Bfrtip')  si quieres mostrar botones y filtros ordenadamente
                     ->buttons([
-                        Button::make('excel'),
-                        Button::make('csv'),
-                        Button::make('pdf'),
-                        Button::make('print'),
-                        Button::make('reset'),
-                        Button::make('reload')
+                        // Botones traducidos manualmente 👇
+                        Button::make('excel')->text('Excel'),
+                        Button::make('csv')->text('CSV'),
+                        Button::make('pdf')->text('PDF'),
+                        Button::make('print')->text('Imprimir'),
+                        Button::make('pageLength')->text('Mostrar'), // ✅ Botón válido extra
+                        Button::raw([
+                                        'text' => 'Recargar',
+                                        'action' => 'function ( e, dt, node, config ) {
+                                            dt.ajax.reload();
+                                        }'
+                                    ])
+                    ])
+                    ->parameters([
+                        'language' => [
+                            // Puedes usar un archivo local (coloca el archivo JSON en public) o usar CDN oficial:
+                            'url' => asset('backend/assets/json/es-MX.json'),
+                            // Alternativamente para CDN oficial DataTables en español:
+                            // 'url' => '//cdn.datatables.net/plug-ins/1.11.5/i18n/es-ES.json',
+                        ],
+                        'responsive' => true,
+                        'autoWidth'   => false,
                     ]);
     }
 
@@ -94,17 +110,17 @@ class BrandDataTable extends DataTable
     public function getColumns(): array
     {
         return [
-
-            Column::make('id'),
-            Column::make('logo')->width(200),
-            Column::make('name')->width(300),
-            Column::make('is_featured'),
-            Column::make('status'),
+            Column::make('id')->title('ID'),
+            Column::make('logo')->title('Logo')->width(200),
+            Column::make('name')->title('Nombre')->width(300),
+            Column::make('is_featured')->title('Destacado'),
+            Column::make('status')->title('Estado'),
             Column::computed('action')
-            ->exportable(false)
-            ->printable(false)
-            ->width(200)
-            ->addClass('text-center'),
+                ->exportable(false)
+                ->printable(false)
+                ->width(200)
+                ->addClass('text-center')
+                ->title('Acción'),
         ];
     }
 

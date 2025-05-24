@@ -1,36 +1,22 @@
 @extends('frontend.layouts.master')
 
 @section('title')
-{{$settings->site_name}} || Login
+{{$settings->site_name}} || Iniciar sesión
 @endsection
 
 @section('content')
 
     <!--============================
-         BREADCRUMB START
+         INICIO DEL MIGAS DE PAN
     ==============================-->
-    <section id="wsus__breadcrumb">
-        <div class="wsus_breadcrumb_overlay">
-            <div class="container">
-                <div class="row">
-                    <div class="col-12">
-                        <h4>login / register</h4>
-                        <ul>
-                            <li><a href="#">home</a></li>
-                            <li><a href="#">login / register</a></li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
+    
     <!--============================
-        BREADCRUMB END
+        FIN DEL MIGAS DE PAN
     ==============================-->
 
 
     <!--============================
-       LOGIN/REGISTER PAGE START
+       INICIO DE PÁGINA DE INICIO DE SESIÓN/REGISTRO
     ==============================-->
     <section id="wsus__login_register">
         <div class="container">
@@ -41,12 +27,12 @@
                             <li class="nav-item" role="presentation">
                                 <button class="nav-link active" id="pills-home-tab2" data-bs-toggle="pill"
                                     data-bs-target="#pills-homes" type="button" role="tab" aria-controls="pills-homes"
-                                    aria-selected="true">login</button>
+                                    aria-selected="true">iniciar sesión</button>
                             </li>
                             <li class="nav-item" role="presentation">
                                 <button class="nav-link" id="pills-profile-tab2" data-bs-toggle="pill"
                                     data-bs-target="#pills-profiles" type="button" role="tab"
-                                    aria-controls="pills-profiles" aria-selected="true">signup</button>
+                                    aria-controls="pills-profiles" aria-selected="true">registrarse</button>
                             </li>
                         </ul>
                         <div class="tab-content" id="pills-tabContent2">
@@ -57,27 +43,25 @@
                                         @csrf
                                         <div class="wsus__login_input">
                                             <i class="fas fa-user-tie"></i>
-                                            <input id="email" type="email" value="{{old('email')}}" name="email" placeholder="Email">
+                                            <input id="email" type="email" value="{{old('email')}}" name="email" placeholder="Correo electrónico">
                                         </div>
 
                                         <div class="wsus__login_input">
                                             <i class="fas fa-key"></i>
-                                            <input id="password" type="password" name="password" placeholder="Password">
+                                            <input id="password" type="password" name="password" placeholder="Contraseña">
                                         </div>
-
 
                                         <div class="wsus__login_save">
                                             <div class="form-check form-switch">
                                                 <input id="remember_me" name="remember" class="form-check-input" type="checkbox"
                                                     id="flexSwitchCheckDefault">
-                                                <label class="form-check-label" for="flexSwitchCheckDefault">Remember
-                                                    me</label>
+                                                <label class="form-check-label" for="flexSwitchCheckDefault">Recordarme</label>
                                             </div>
-                                            <a class="forget_p" href="{{ route('password.request') }}">forget password ?</a>
+                                            <a class="forget_p" href="{{ route('password.request') }}">¿Olvidaste tu contraseña?</a>
                                         </div>
 
-                                        <button class="common_btn" type="submit">login</button>
-                                        {{-- <p class="social_text">Sign in with social account</p>
+                                        <button class="common_btn" type="submit">iniciar sesión</button>
+                                        {{-- <p class="social_text">Inicia sesión con cuenta social</p>
                                         <ul class="wsus__login_link">
                                             <li><a href="#"><i class="fab fa-google"></i></a></li>
                                             <li><a href="#"><i class="fab fa-facebook-f"></i></a></li>
@@ -94,28 +78,25 @@
                                         @csrf
                                         <div class="wsus__login_input">
                                             <i class="fas fa-user-tie"></i>
-                                            <input id="name" name="name" value="{{old('name')}}" type="text" placeholder="Name">
+                                            <input id="name" name="name" value="{{old('name')}}" type="text" placeholder="Nombre">
                                         </div>
-
 
                                         <div class="wsus__login_input">
                                             <i class="far fa-envelope"></i>
-                                            <input id="email" type="email" name="email" value="{{old('email')}}" type="text" placeholder="Email">
+                                            <input id="email" type="email" name="email" value="{{old('email')}}" placeholder="Correo electrónico">
                                         </div>
-
 
                                         <div class="wsus__login_input">
                                             <i class="fas fa-key"></i>
-                                            <input id="password" name="password" type="password" placeholder="Password">
+                                            <input id="password" name="password" type="password" placeholder="Contraseña">
                                         </div>
-
 
                                         <div class="wsus__login_input">
                                             <i class="fas fa-key"></i>
-                                            <input id="password_confirmation" type="password" name="password_confirmation" placeholder="Confirm Password">
+                                            <input id="password_confirmation" type="password" name="password_confirmation" placeholder="Confirmar Contraseña">
                                         </div>
 
-                                        <button class="common_btn mt-4" type="submit">signup</button>
+                                        <button class="common_btn mt-4" type="submit">registrarse</button>
                                     </form>
                                 </div>
                             </div>
@@ -126,6 +107,6 @@
         </div>
     </section>
     <!--============================
-       LOGIN/REGISTER PAGE END
+       FIN DE PÁGINA DE INICIO DE SESIÓN/REGISTRO
     ==============================-->
 @endsection

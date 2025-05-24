@@ -12,6 +12,7 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" integrity="sha512-dFgYz..." crossorigin="anonymous" />
   <!-- Leaflet CSS -->
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+  <!-- <link rel="stylesheet" href="https://cdn.datatables.net/buttons/2.4.2/css/buttons.bootstrap4.min.css"> -->
   <!-- CSS Libraries -->
   <link rel="stylesheet" href="{{asset('backend/assets/modules/jqvmap/dist/jqvmap.min.css')}}">
   <link rel="stylesheet" href="{{asset('backend/assets/modules/weather-icon/css/weather-icons.min.css')}}">
@@ -77,6 +78,7 @@
             @include('admin.layouts.footer')
 
     </div>
+    
   </div>
 
   <!-- General JS Scripts -->
@@ -108,6 +110,22 @@
   <!-- Template JS File -->
   <script src="{{asset('backend/assets/js/scripts.js')}}"></script>
   <script src="{{asset('backend/assets/js/custom.js')}}"></script>
+
+        <!-- DataTables Buttons JS 
+    <script src="https://cdn.datatables.net/buttons/2.4.2/js/dataTables.buttons.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/2.4.2/js/buttons.bootstrap4.min.js"></script>-->
+    
+    <!-- Para exportar a Excel, CSV 
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/2.4.2/js/buttons.html5.min.js"></script>-->
+    
+    <!-- Para exportar a PDF 
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>-->
+    
+    <!-- Para imprimir 
+    <script src="https://cdn.datatables.net/buttons/2.4.2/js/buttons.print.min.js"></script>-->
+
 
   <script>
     @if ($errors->any())
@@ -148,7 +166,9 @@
                     $.ajax({
                         type: 'DELETE',
                         url: deleteUrl,
-
+                        headers: {
+        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+    },
                         success: function(data){
 
                             if(data.status == 'success'){

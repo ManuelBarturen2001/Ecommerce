@@ -2,8 +2,23 @@
     $address = json_decode($order->order_address);
     $shipping = json_decode($order->shpping_method);
     $coupon = json_decode($order->coupon);
+    $departamento = null;
+    $provincia = null;
+    $distrito = null;
+    
+    if (isset($address->dep_id) && $address->dep_id) {
+        $departamento = \App\Models\Departamento::find($address->dep_id);
+    }
 
+    if (isset($address->prov_id) && $address->prov_id) {
+        $provincia = \App\Models\Provincia::find($address->prov_id);
+    }
+
+    if (isset($address->dist_id) && $address->dist_id) {
+        $distrito = \App\Models\Distrito::find($address->dist_id);
+    }
 @endphp
+
 @extends('admin.layouts.master')
 
 @section('content')
@@ -31,10 +46,10 @@
                             <b>Email: </b> {{$address->email}}<br>
                             <b>Phone:</b> {{$address->phone}}<br>
                             <b>Address:</b> {{$address->address}},<br>
-                            <b>Departamento:</b>{{ $address->dep_id ?? 'No disponible' }}<br>
-                            <b>Provincia:</b>{{ $address->prov_id ?? 'No disponible' }}<br>
-                            <b>Distrito:</b>{{ $address->dist_id ?? 'No disponible' }}<br>
-                            <b>Codigo Postal:</b>{{$address->zip}}<br>
+                            <b>Departamento:</b> {{ $departamento->nombre ?? 'No disponible' }}<br>
+                            <b>Provincia:</b> {{ $provincia->nombre ?? 'No disponible' }}<br>
+                            <b>Distrito:</b> {{ $distrito->nombre ?? 'No disponible' }}<br>
+                            <b>Codigo Postal:</b> {{ $address->zip ?? 'No disponible' }}<br>
                         </address>
                       </div>
                       <div class="col-md-6 text-md-right">
@@ -44,10 +59,10 @@
                               <b>Email: </b> {{$address->email}}<br>
                               <b>Phone:</b> {{$address->phone}}<br>
                               <b>Address:</b> {{$address->address}},<br>
-                              <b>Departamento:</b>{{ $address->dep_id ?? 'No disponible' }}<br>
-                              <b>Provincia:</b>{{ $address->prov_id ?? 'No disponible' }}<br>
-                              <b>Distrito:</b>{{ $address->dist_id ?? 'No disponible' }}<br>
-                              <b>Codigo Postal:</b>{{$address->zip}}<br>
+                              <b>Departamento:</b> {{ $departamento->nombre ?? 'No disponible' }}<br>
+                              <b>Provincia:</b> {{ $provincia->nombre ?? 'No disponible' }}<br>
+                              <b>Distrito:</b> {{ $distrito->nombre ?? 'No disponible' }}<br>
+                              <b>Codigo Postal:</b> {{$address->zip ?? 'No disponible' }}<br>
                         </address>
                       </div>
                     </div>
@@ -57,6 +72,16 @@
                           <strong>Payment Information:</strong><br>
                           <b>Method:</b> {{$order->payment_method}}<br>
                           <b>Transaction Id: </b>{{@$order->transaction->transaction_id}} <br>
+                          @if(isset($address->is_store_pickup) && $address->is_store_pickup)
+                                    <div class="info-item">
+                                        <span class="info-label">Tipo:</span>
+                                        <span class="info-value">
+                                            <span class="status-badge" style="background: #e3f2fd; color: #1565c0;">
+                                                <i class="fas fa-store"></i> Retiro en Tienda
+                                            </span>
+                                        </span>
+                                    </div>
+                                @endif
                           <b>Status: </b> {{$order->payment_status === 1 ? 'Complete' : 'Pending'}}
                         </address>
                       </div>

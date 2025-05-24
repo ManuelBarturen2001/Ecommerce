@@ -21,10 +21,10 @@
                     <div class="card-body">
                       {{ $dataTable->table() }}
                     </div>
-
                   </div>
                 </div>
               </div>
+            </div>
   @endsection
 
   @push('scripts')
@@ -43,6 +43,9 @@
                           status: isChecked,
                           id: id
                       },
+                      headers: {
+        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+    },
                       success: function(data){
                           toastr.success(data.message)
                       },

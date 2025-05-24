@@ -2,56 +2,54 @@
 
 namespace App\DataTables;
 
-use App\Models\AdminList;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Builder as QueryBuilder;
 use Yajra\DataTables\EloquentDataTable;
 use Yajra\DataTables\Html\Builder as HtmlBuilder;
 use Yajra\DataTables\Html\Button;
 use Yajra\DataTables\Html\Column;
-use Yajra\DataTables\Html\Editor\Editor;
-use Yajra\DataTables\Html\Editor\Fields;
 use Yajra\DataTables\Services\DataTable;
 
 class AdminListDataTable extends DataTable
 {
     /**
-     * Build the DataTable class.
-     *
-     * @param QueryBuilder $query Results from query() method.
+     * Construye el DataTable.
      */
     public function dataTable(QueryBuilder $query): EloquentDataTable
     {
         return (new EloquentDataTable($query))
-            ->addColumn('action', function($query){
-                if($query->id != 1){
-                    $deleteBtn = "<a href='".route('admin.admin-list.destory', $query->id)."' class='btn btn-danger ml-2 delete-item'><i class='far fa-trash-alt'></i></a>";
-
-                    return $deleteBtn;
+            // ───── ACCIÓN (borrar) ───────────────────────────────────────────────
+            ->addColumn('action', function ($query) {
+                if ($query->id !== 1) {
+                    return "<a href='" . route('admin.admin-list.destory', $query->id) . "' 
+                               class='btn btn-danger ml-2 delete-item'>
+                               <i class='far fa-trash-alt'></i>
+                            </a>";
                 }
             })
-            ->addColumn('status', function($query){
-                if($query->id != 1){
-                    if($query->status == 'active'){
-                        $button = '<label class="custom-switch mt-2">
-                            <input type="checkbox" checked name="custom-switch-checkbox" data-id="'.$query->id.'" class="custom-switch-input change-status" >
-                            <span class="custom-switch-indicator"></span>
-                        </label>';
-                    }else {
-                        $button = '<label class="custom-switch mt-2">
-                            <input type="checkbox" name="custom-switch-checkbox" data-id="'.$query->id.'" class="custom-switch-input change-status">
-                            <span class="custom-switch-indicator"></span>
-                        </label>';
-                    }
-                    return $button;
+            // ───── STATUS (switch) ──────────────────────────────────────────────
+            ->addColumn('status', function ($query) {
+                if ($query->id !== 1) {
+                    $checked = $query->status === 'active' ? 'checked' : '';
+                    return '<label class="custom-switch mt-2">
+                                <input type="checkbox" ' . $checked . '
+                                       name="custom-switch-checkbox"
+                                       data-id="' . $query->id . '"
+                                       class="custom-switch-input change-status">
+                                <span class="custom-switch-indicator"></span>
+                            </label>';
                 }
+            })
+            // ───── ROL (traducido) ──────────────────────────────────────────────
+            ->editColumn('role', function ($query) {                       // 👈 Nuevo
+                return $query->role === 'admin' ? 'Administrador' : $query->role;
             })
             ->rawColumns(['status', 'action'])
             ->setRowId('id');
     }
 
     /**
-     * Get the query source of dataTable.
+     * Fuente de la consulta.
      */
     public function query(User $model): QueryBuilder
     {
@@ -59,48 +57,64 @@ class AdminListDataTable extends DataTable
     }
 
     /**
-     * Optional method if you want to use the html builder.
+     * Configuración del Builder de DataTables.
      */
     public function html(): HtmlBuilder
     {
         return $this->builder()
-                    ->setTableId('adminlist-table')
-                    ->columns($this->getColumns())
-                    ->minifiedAjax()
-                    //->dom('Bfrtip')
-                    // ->orderBy(1)
-                    ->selectStyleSingle()
-                    ->buttons([
-                        Button::make('excel'),
-                        Button::make('csv'),
-                        Button::make('pdf'),
-                        Button::make('print'),
-                        Button::make('reset'),
-                        Button::make('reload')
-                    ]);
+            ->setTableId('adminlist-table')
+            ->columns($this->getColumns())
+            ->minifiedAjax()
+            ->selectStyleSingle()
+            //->dom('Bfrtip')  si quieres mostrar botones y filtros ordenadamente
+            ->buttons([
+                // Botones traducidos manualmente 👇
+                Button::make('excel')->text('Excel'),
+                Button::make('csv')->text('CSV'),
+                Button::make('pdf')->text('PDF'),
+                Button::make('print')->text('Imprimir'),
+                Button::make('pageLength')->text('Mostrar'), // ✅ Botón válido extra
+                Button::raw([
+                                'text' => 'Recargar',
+                                'action' => 'function ( e, dt, node, config ) {
+                                    dt.ajax.reload();
+                                }'
+                            ])
+            ])
+            ->parameters([              
+                                   // 👈 Nuevo
+                'language' => [
+                    // CDN oficial de DataTables (es-ES):
+                    'url' => asset('backend/assets/json/es-MX.json'),
+                ],
+                // Otras opciones habituales (opcionales):
+                'responsive' => true,
+                'autoWidth'   => false,
+            ]);
     }
 
     /**
-     * Get the dataTable columns definition.
+     * Columnas.
      */
     public function getColumns(): array
     {
         return [
-            Column::make('id'),
-            Column::make('name'),
-            Column::make('email'),
-            Column::make('role'),
-            Column::make('status'),
+            Column::make('id')->title('ID'),
+            Column::make('name')->title('Nombre'),
+            Column::make('email')->title('Correo'),
+            Column::make('role')->title('Rol'),          // título ya en ES 👈
+            Column::make('status')->title('Estado'),
             Column::computed('action')
-            ->exportable(false)
-            ->printable(false)
-            ->width(60)
-            ->addClass('text-center'),
+                ->exportable(false)
+                ->printable(false)
+                ->width(60)
+                ->addClass('text-center')
+                ->title('Acción'),                       // 👈 Nuevo
         ];
     }
 
     /**
-     * Get the filename for export.
+     * Nombre del archivo de exportación.
      */
     protected function filename(): string
     {

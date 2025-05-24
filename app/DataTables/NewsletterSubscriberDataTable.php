@@ -75,15 +75,16 @@ class NewsletterSubscriberDataTable extends DataTable
     public function getColumns(): array
     {
         return [
-            Column::make('id'),
-            Column::make('email'),
-            Column::make('is_verified'),
+            Column::make('id')->title('ID'),
+            Column::make('email')->title('Correo electrónico'),
+            Column::make('is_verified')->title('¿Verificado?'),
 
             Column::computed('action')
-            ->exportable(false)
-            ->printable(false)
-            ->width(60)
-            ->addClass('text-center'),
+                ->exportable(false)
+                ->printable(false)
+                ->width(60)
+                ->addClass('text-center')
+                ->title('Acción'),
         ];
     }
 

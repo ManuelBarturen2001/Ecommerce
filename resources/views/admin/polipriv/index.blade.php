@@ -27,7 +27,6 @@
                         <button type="submmit" class="btn btn-primary">Modificar</button>
                     </form>
                   </div>
-
                 </div>
               </div>
             </div>

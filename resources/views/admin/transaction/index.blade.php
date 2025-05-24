@@ -1,31 +1,29 @@
 @extends('admin.layouts.master')
 
 @section('content')
-      <!-- Main Content -->
-        <section class="section">
-          <div class="section-header">
-            <h1>Transactions</h1>
-          </div>
+    <!-- Contenido Principal -->
+    <section class="section">
+        <div class="section-header">
+            <h1>Transacciones</h1>
+        </div>
 
-          <div class="section-body">
+        <div class="section-body">
 
             <div class="row">
-              <div class="col-12">
-                <div class="card">
-                  <div class="card-header">
-                    <h4>All Transactions</h4>
-                  </div>
-                  <div class="card-body">
-                    {{ $dataTable->table() }}
-                  </div>
-
+                <div class="col-12">
+                    <div class="card">
+                        <div class="card-header">
+                            <h4>Todas las Transacciones</h4>
+                        </div>
+                        <div class="card-body">
+                            {{ $dataTable->table() }}
+                        </div>
+                    </div>
                 </div>
-              </div>
             </div>
 
-          </div>
-        </section>
-
+        </div>
+    </section>
 @endsection
 
 @push('scripts')

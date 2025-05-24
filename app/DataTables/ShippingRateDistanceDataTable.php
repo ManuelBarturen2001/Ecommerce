@@ -65,7 +65,7 @@ class ShippingRateDistanceDataTable extends DataTable
     {
         return [
             Column::make('id')->width(50),
-            Column::make('shipping_rule')->title('Regla de Envío')->width(150), // Nueva columna para la regla de envío
+            Column::make('shipping_rule')->title('Regla de Envío')->width(150),
             Column::make('min_km')->title('Mínima distancia (km)'),
             Column::make('max_km')->title('Máxima distancia (km)'),
             Column::make('price')->title('Precio'),
@@ -74,7 +74,8 @@ class ShippingRateDistanceDataTable extends DataTable
                 ->exportable(false)
                 ->printable(false)
                 ->width(100)
-                ->addClass('text-center'),
+                ->addClass('text-center')
+                ->title('Acción'),
         ];
     }
 

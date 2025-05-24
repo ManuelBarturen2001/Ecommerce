@@ -122,7 +122,6 @@
                                     <label>Contenido Adicional</label>
                                     <textarea name="content" class="summernote">{{ old('content') }}</textarea>
                                 </div>
-
                                 <div class="form-group text-right">
                                     <button type="submit" class="btn btn-primary">Guardar Tienda</button>
                                     <a href="{{ route('admin.retiro-en-tienda.index') }}" class="btn btn-secondary">Cancelar</a>

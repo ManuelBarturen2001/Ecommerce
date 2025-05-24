@@ -37,9 +37,7 @@
                                                             <h6>{{ $address->name }}</h6>
                                                             <p>{{ $address->email }}</p>
                                                             <p>{{ $address->phone }}</p>
-                                                            <p>{{ $address->address }}, {{ $address->city }},
-                                                                {{ $address->state }}, {{ $address->zip }}</p>
-                                                            <p>{{ $address->country }}</p>
+                                                            <p>{{ $address->address }}</p>
                                                         </div>
                                                     </div>
                                                     <div class="col-xl-4 col-md-4 mb-5 mb-md-0">
@@ -48,9 +46,7 @@
                                                             <h6>{{ $address->name }}</h6>
                                                             <p>{{ $address->email }}</p>
                                                             <p>{{ $address->phone }}</p>
-                                                            <p>{{ $address->address }}, {{ $address->city }},
-                                                                {{ $address->state }}, {{ $address->zip }}</p>
-                                                            <p>{{ $address->country }}</p>
+                                                            <p>{{ $address->address }}</p>
                                                         </div>
                                                     </div>
                                                     <div class="col-xl-4 col-md-4">

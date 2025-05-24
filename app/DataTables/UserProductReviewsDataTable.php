@@ -32,9 +32,9 @@ class UserProductReviewsDataTable extends DataTable
             })
             ->addColumn('status', function($query){
                 if($query->status == 1){
-                    return "<span class='badge bg-success'>Approved</span>";
+                    return "<span class='badge bg-success'>Aprobado</span>";
                 }else {
-                    return "<span class='badge bg-warning'>Pending</span>";
+                    return "<span class='badge bg-warning'>Pendienet</span>";
                 }
             })
             ->rawColumns(['product', 'status'])
@@ -77,15 +77,12 @@ class UserProductReviewsDataTable extends DataTable
     public function getColumns(): array
     {
         return [
-
-            Column::make('id'),
-            Column::make('product'),
-            Column::make('user'),
-            Column::make('rating'),
-            Column::make('review'),
-            Column::make('status')
-
-
+            Column::make('id')->title('ID'),
+            Column::make('product')->title('Producto'),
+            Column::make('user')->title('Usuario'),
+            Column::make('rating')->title('Puntuación'),
+            Column::make('review')->title('Reseña'),
+            Column::make('status')->title('Estado'),
         ];
     }
 

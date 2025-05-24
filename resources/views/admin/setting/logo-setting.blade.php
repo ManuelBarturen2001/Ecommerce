@@ -10,7 +10,6 @@
                     <label>Logo</label>
                     <input type="file" class="form-control" name="logo" value="">
                     <input type="hidden" class="form-control" name="old_logo" value="{{@$logoSetting->logo}}">
-
                 </div>
 
                 <div class="form-group">
@@ -19,12 +18,9 @@
                     <label>Favicon</label>
                     <input type="file" class="form-control" name="favicon" value="">
                     <input type="hidden" class="form-control" name="old_favicon" value="{{@$logoSetting->favicon}}">
-
                 </div>
 
-
-
-                <button type="submit" class="btn btn-primary">Update</button>
+                <button type="submit" class="btn btn-primary">Actualizar</button>
             </form>
         </div>
     </div>

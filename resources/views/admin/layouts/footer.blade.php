@@ -21,7 +21,10 @@
 </footer>
 </div>
 <style>
-    .footer{padding:3px;text-align:center}
+    .footer{
+        padding:3px;
+        text-align:center;
+    }
     .footer {
         -premailer-cellpadding: 0;
         -premailer-cellspacing: 0;

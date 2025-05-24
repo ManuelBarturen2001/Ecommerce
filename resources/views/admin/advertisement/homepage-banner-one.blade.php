@@ -6,7 +6,7 @@
             @method('PUT')
 
             <div class="form-group">
-                <label for="">Status</label>
+                <label for="">Estado</label>
                 <br>
                 <label class="custom-switch mt-2">
                     <input type="checkbox" {{$homepage_secion_banner_one->banner_one->status == 1 ? 'checked':''}} name="status" class="custom-switch-input" >
@@ -18,16 +18,16 @@
             </div>
             <div class="form-group">
 
-                <label>Banner Image</label>
+                <label>Imagen del Banner</label>
                 <input type="file" class="form-control" name="banner_image" value="">
                 <input type="hidden" class="form-control" name="banner_old_image" value="{{$homepage_secion_banner_one->banner_one->banner_image}}">
             </div>
             <div class="form-group">
-                <label>Banner url</label>
+                <label>URL del Banner</label>
                 <input type="text" class="form-control" name="banner_url" value="{{$homepage_secion_banner_one->banner_one->banner_url}}">
             </div>
 
-            <button type="submit" class="btn btn-primary">Update</button>
+            <button type="submit" class="btn btn-primary">Actualizar</button>
         </form>
     </div>
 </div>

@@ -30,11 +30,11 @@ class VendorWithdrawDataTable extends DataTable
             })
             ->addColumn('status', function($query){
                 if($query->status == 'pending'){
-                    return "<span class='badge bg-warning'>pending</span>";
+                    return "<span class='badge bg-warning'>Pendiente</span>";
                 }elseif($query->status == 'paid'){
-                    return "<span class='badge bg-success'>Paid</span>";
+                    return "<span class='badge bg-success'>Pagado</span>";
                 }else {
-                    return "<span class='badge bg-danger'>Declined</span>";
+                    return "<span class='badge bg-danger'>Rechazado</span>";
                 }
             })
             ->addColumn('total_amount', function($query){
@@ -86,19 +86,19 @@ class VendorWithdrawDataTable extends DataTable
     public function getColumns(): array
     {
         return [
-
-            Column::make('id'),
-            Column::make('method'),
-            Column::make('total_amount'),
-            Column::make('withdraw_amount'),
-            Column::make('withdraw_charge'),
-            Column::make('status'),
+            Column::make('id')->title('ID'),
+            Column::make('method')->title('Método'),
+            Column::make('total_amount')->title('Monto Total'),
+            Column::make('withdraw_amount')->title('Monto Retirado'),
+            Column::make('withdraw_charge')->title('Cargo de Retiro'),
+            Column::make('status')->title('Estado'),
 
             Column::computed('action')
-            ->exportable(false)
-            ->printable(false)
-            ->width(60)
-            ->addClass('text-center'),
+                ->exportable(false)
+                ->printable(false)
+                ->width(60)
+                ->addClass('text-center')
+                ->title('Acción'),
         ];
     }
 

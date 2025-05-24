@@ -11,7 +11,7 @@
     <title>
         @yield('title')
     </title>
-
+    
     @yield('metas')
     <style>
         :root {
@@ -39,6 +39,7 @@
     @if($settings->layout === 'RTL')
     <link rel="stylesheet" href="{{asset('frontend/css/rtl.css')}}">
     @endif
+    
     @vite(['resources/js/app.js'])
 </head>
 

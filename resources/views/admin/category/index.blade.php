@@ -1,34 +1,35 @@
 @extends('admin.layouts.master')
 
 @section('content')
-      <!-- Main Content -->
-        <section class="section">
-          <div class="section-header">
-            <h1>Category</h1>
-          </div>
+<!-- Contenido Principal -->
+<section class="section">
+  <div class="section-header">
+    <h1>Categorías</h1>
+  </div>
 
-          <div class="section-body">
+  <div class="section-body">
 
-            <div class="row">
-              <div class="col-12">
-                <div class="card">
-                  <div class="card-header">
-                    <h4>All Categories</h4>
-                    <div class="card-header-action">
-                        <a href="{{route('admin.category.create')}}" class="btn btn-primary"><i class="fas fa-plus"></i> Create New</a>
-                    </div>
-                  </div>
-                  <div class="card-body">
-                    {{ $dataTable->table() }}
-                  </div>
-
-                </div>
-              </div>
+    <div class="row">
+      <div class="col-12">
+        <div class="card">
+          <div class="card-header">
+            <h4>Todas las Categorías</h4>
+            <div class="card-header-action">
+              <a href="{{route('admin.category.create')}}" class="btn btn-primary">
+                <i class="fas fa-plus"></i> Crear Nueva
+              </a>
             </div>
-
           </div>
-        </section>
+          <div class="card-body">
+            {{ $dataTable->table() }}
+          </div>
 
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
 @endsection
 
 @push('scripts')
@@ -47,6 +48,9 @@
                         status: isChecked,
                         id: id
                     },
+                    headers: {
+        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+    },
                     success: function(data){
                         toastr.success(data.message)
                     },

@@ -77,12 +77,12 @@ class VendorProductReviewsDataTable extends DataTable
     public function getColumns(): array
     {
         return [
-            Column::make('id'),
-            Column::make('product'),
-            Column::make('user'),
-            Column::make('rating'),
-            Column::make('review'),
-            Column::make('status')
+            Column::make('id')->title('ID'),
+            Column::make('product')->title('Producto'),
+            Column::make('user')->title('Usuario'),
+            Column::make('rating')->title('Calificación'),
+            Column::make('review')->title('Reseña'),
+            Column::make('status')->title('Estado'),
         ];
     }
 

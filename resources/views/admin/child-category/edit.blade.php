@@ -1,10 +1,10 @@
 @extends('admin.layouts.master')
 
 @section('content')
-      <!-- Main Content -->
+      <!-- Contenido Principal -->
         <section class="section">
           <div class="section-header">
-            <h1>Sub Category</h1>
+            <h1>Subcategoría</h1>
           </div>
 
           <div class="section-body">
@@ -13,7 +13,7 @@
               <div class="col-12">
                 <div class="card">
                   <div class="card-header">
-                    <h4>Update Sub Category</h4>
+                    <h4>Actualizar Subcategoría</h4>
 
                   </div>
                   <div class="card-body">
@@ -21,35 +21,35 @@
                         @csrf
                         @method('PUT')
                         <div class="form-group">
-                            <label for="inputState">Category</label>
+                            <label for="inputState">Categoría</label>
                             <select id="inputState" class="form-control main-category" name="category">
-                              <option value="">Select</option>
+                              <option value="">Seleccionar</option>
                               @foreach ($categories as $category)
                                 <option {{$category->id == $childCategory->category_id ? 'selected' : ''}} value="{{$category->id}}">{{$category->name}}</option>
                               @endforeach
                             </select>
                         </div>
                         <div class="form-group">
-                            <label for="inputState">Sub Category</label>
+                            <label for="inputState">Subcategoría</label>
                             <select id="inputState" class="form-control sub-category" name="sub_category">
-                              <option value="">Select</option>
+                              <option value="">Seleccionar</option>
                               @foreach ($subCategories as $subCategory)
                               <option {{$subCategory->id == $childCategory->sub_category_id ? 'selected' : ''}} value="{{$subCategory->id}}">{{$subCategory->name}}</option>
                               @endforeach
                             </select>
                         </div>
                         <div class="form-group">
-                            <label>Name</label>
+                            <label>Nombre</label>
                             <input type="text" class="form-control" name="name" value="{{$childCategory->name}}">
                         </div>
                         <div class="form-group">
-                            <label for="inputState">Status</label>
+                            <label for="inputState">Estado</label>
                             <select id="inputState" class="form-control" name="status">
-                              <option {{$childCategory->status == 1 ? 'selected' : ''}} value="1">Active</option>
-                              <option {{$childCategory->status == 0 ? 'selected' : ''}} value="0">Inactive</option>
+                              <option {{$childCategory->status == 1 ? 'selected' : ''}} value="1">Activo</option>
+                              <option {{$childCategory->status == 0 ? 'selected' : ''}} value="0">Inactivo</option>
                             </select>
                         </div>
-                        <button type="submmit" class="btn btn-primary">Update</button>
+                        <button type="submit" class="btn btn-primary">Actualizar</button>
                     </form>
                   </div>
 
@@ -74,7 +74,7 @@
                         id:id
                     },
                     success: function(data){
-                        $('.sub-category').html('<option value="">Select</option>')
+                        $('.sub-category').html('<option value="">Seleccionar</option>')
 
                         $.each(data, function(i, item){
                             $('.sub-category').append(`<option value="${item.id}">${item.name}</option>`)

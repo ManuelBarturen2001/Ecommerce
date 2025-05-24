@@ -71,13 +71,14 @@ class VendorProductImageGalleryDataTable extends DataTable
     public function getColumns(): array
     {
         return [
-            Column::make('id')->width(100),
-            Column::make('image'),
+            Column::make('id')->title('ID')->width(100),
+            Column::make('image')->title('Imagen')->width(150),
             Column::computed('action')
-            ->exportable(false)
-            ->printable(false)
-            ->width(400)
-            ->addClass('text-center'),
+                ->title('Acción')
+                ->exportable(false)
+                ->printable(false)
+                ->width(400)
+                ->addClass('text-center'),
         ];
     }
 

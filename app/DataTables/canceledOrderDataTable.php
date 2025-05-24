@@ -49,31 +49,30 @@ class canceledOrderDataTable extends DataTable
             ->addColumn('order_status', function($query){
                 switch ($query->order_status) {
                     case 'pending':
-                        return "<span class='badge bg-warning'>pending</span>";
+                        return "<span class='badge bg-warning'>Pendiente</span>";
                         break;
                     case 'processed_and_ready_to_ship':
-                        return "<span class='badge bg-info'>processed</span>";
+                        return "<span class='badge bg-info'>Procesado</span>";
                         break;
                     case 'dropped_off':
-                        return "<span class='badge bg-info'>dropped off</span>";
+                        return "<span class='badge bg-info'>Dejado en Tienda</span>";
                         break;
                     case 'shipped':
-                        return "<span class='badge bg-info'>shipped</span>";
+                        return "<span class='badge bg-info'>Enviado</span>";
                         break;
                     case 'out_for_delivery':
-                        return "<span class='badge bg-primary'>out for delivery</span>";
+                        return "<span class='badge bg-primary'>En reparto</span>";
                         break;
                     case 'delivered':
-                        return "<span class='badge bg-success'>delivered</span>";
+                        return "<span class='badge bg-success'>Entregado</span>";
                         break;
                     case 'canceled':
-                        return "<span class='badge bg-danger'>canceled</span>";
+                        return "<span class='badge bg-danger'>Cancelado</span>";
                         break;
                     default:
-                        # code...
+                        return "<span class='badge bg-secondary'>Desconocido</span>";
                         break;
                 }
-
             })
             ->rawColumns(['order_status', 'action', 'payment_status'])
             ->setRowId('id');
@@ -96,16 +95,31 @@ class canceledOrderDataTable extends DataTable
                     ->setTableId('pendingorder-table')
                     ->columns($this->getColumns())
                     ->minifiedAjax()
-                    //->dom('Bfrtip')
                     ->orderBy(0)
                     ->selectStyleSingle()
+                    //->dom('Bfrtip')  si quieres mostrar botones y filtros ordenadamente
                     ->buttons([
-                        Button::make('excel'),
-                        Button::make('csv'),
-                        Button::make('pdf'),
-                        Button::make('print'),
-                        Button::make('reset'),
-                        Button::make('reload')
+                        // Botones traducidos manualmente 👇
+                        Button::make('excel')->text('Excel'),
+                        Button::make('csv')->text('CSV'),
+                        Button::make('pdf')->text('PDF'),
+                        Button::make('print')->text('Imprimir'),
+                        Button::make('pageLength')->text('Mostrar'), // ✅ Botón válido extra
+                        Button::raw([
+                                        'text' => 'Recargar',
+                                        'action' => 'function ( e, dt, node, config ) {
+                                            dt.ajax.reload();
+                                        }'
+                                    ])
+                    ])
+                    ->parameters([
+                        'language' => [
+                            // Puedes poner la URL a tu archivo local de idioma español o usar CDN oficial
+                            'url' => asset('backend/assets/json/es-MX.json'),
+                            // 'url' => '//cdn.datatables.net/plug-ins/1.11.5/i18n/es-ES.json',
+                        ],
+                        'responsive' => true,
+                        'autoWidth'   => false,
                     ]);
     }
 
@@ -115,23 +129,21 @@ class canceledOrderDataTable extends DataTable
     public function getColumns(): array
     {
         return [
-            Column::make('id'),
-            Column::make('invocie_id'),
-            Column::make('customer'),
-            Column::make('date'),
-            Column::make('product_qty'),
-            Column::make('amount'),
-            Column::make('order_status'),
-            Column::make('payment_status'),
-
-            Column::make('payment_method'),
-
-
+            Column::make('id')->title('ID'),
+            Column::make('invocie_id')->title('ID Factura'), // cuidado con typo 'invocie_id' -> 'invoice_id' si es necesario
+            Column::make('customer')->title('Cliente'),
+            Column::make('date')->title('Fecha'),
+            Column::make('product_qty')->title('Cantidad'),
+            Column::make('amount')->title('Monto'),
+            Column::make('order_status')->title('Estado del pedido'),
+            Column::make('payment_status')->title('Estado de pago'),
+            Column::make('payment_method')->title('Método de pago'),
             Column::computed('action')
-            ->exportable(false)
-            ->printable(false)
-            ->width(200)
-            ->addClass('text-center'),
+                ->exportable(false)
+                ->printable(false)
+                ->width(200)
+                ->addClass('text-center')
+                ->title('Acción'),
         ];
     }
 

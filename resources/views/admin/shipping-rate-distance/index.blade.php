@@ -31,7 +31,6 @@
 
 @push('scripts')
     {{ $dataTable->scripts(attributes: ['type' => 'module']) }}
-
     <script>
         $(document).ready(function(){
             $('body').on('click', '.change-status', function(){
@@ -45,6 +44,9 @@
                         status: isChecked,
                         id: id
                     },
+                    headers: {
+        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+    },
                     success: function(data){
                         toastr.success(data.message);
                     },

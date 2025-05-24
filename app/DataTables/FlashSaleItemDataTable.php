@@ -98,18 +98,20 @@ class FlashSaleItemDataTable extends DataTable
     public function getColumns(): array
     {
         return [
+            Column::make('id')->title('ID'),
+            Column::make('product_name')->title('Nombre del Producto'),
+            Column::make('show_at_home')->title('Mostrar en Inicio'),
+            Column::make('status')->title('Estado'),
 
-            Column::make('id'),
-            Column::make('product_name'),
-            Column::make('show_at_home'),
-            Column::make('status'),
             Column::computed('action')
-            ->exportable(false)
-            ->printable(false)
-            ->width(60)
-            ->addClass('text-center'),
+                ->exportable(false)
+                ->printable(false)
+                ->width(60)
+                ->addClass('text-center')
+                ->title('Acción'),
         ];
     }
+
 
     /**
      * Get the filename for export.

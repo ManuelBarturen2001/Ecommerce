@@ -1,10 +1,10 @@
 @extends('admin.layouts.master')
 
 @section('content')
-      <!-- Main Content -->
+      <!-- Contenido Principal -->
         <section class="section">
           <div class="section-header">
-            <h1>Withdraw Methods</h1>
+            <h1>Métodos de Retiro</h1>
           </div>
 
           <div class="section-body">
@@ -13,9 +13,9 @@
               <div class="col-12">
                 <div class="card">
                   <div class="card-header">
-                    <h4>All Methods</h4>
+                    <h4>Todos los Métodos</h4>
                     <div class="card-header-action">
-                        <a href="{{route('admin.withdraw-method.create')}}" class="btn btn-primary"><i class="fas fa-plus"></i> Create New</a>
+                        <a href="{{route('admin.withdraw-method.create')}}" class="btn btn-primary"><i class="fas fa-plus"></i> Crear Nuevo</a>
                     </div>
                   </div>
                   <div class="card-body">

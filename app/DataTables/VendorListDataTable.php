@@ -80,12 +80,12 @@ class VendorListDataTable extends DataTable
     public function getColumns(): array
     {
         return [
-            Column::make('id'),
-            Column::make('name'),
-            Column::make('email'),
-            Column::make('shop_name'),
-            Column::make('role'),
-            Column::make('status'),
+            Column::make('id')->title('ID'),
+            Column::make('name')->title('Nombre'),
+            Column::make('email')->title('Correo'),
+            Column::make('shop_name')->title('Tienda'),
+            Column::make('role')->title('Rol'),
+            Column::make('status')->title('Estado'),
         ];
     }
 

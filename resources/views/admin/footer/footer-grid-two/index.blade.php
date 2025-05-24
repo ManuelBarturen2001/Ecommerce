@@ -1,10 +1,10 @@
 @extends('admin.layouts.master')
 
 @section('content')
-      <!-- Main Content -->
+      <!-- Contenido Principal -->
       <section class="section">
         <div class="section-header">
-          <h1>Footer</h1>
+          <h1>Pie de página</h1>
         </div>
 
         <div class="section-body">
@@ -13,7 +13,7 @@
             <div class="col-12">
               <div class="card">
                 <div class="card-header">
-                  <h4>Footer Grid Two Title</h4>
+                  <h4>Título de Footer Grid Dos</h4>
                 </div>
                 <div class="card-body">
                   <form action="{{route('admin.footer-grid-two.change-title')}}" method="POST">
@@ -22,7 +22,7 @@
                     <div class="col-4">
                         <div class="form-group d-flex">
                             <input type="text" class="form-control" name="title" value="{{@$footerTitle->footer_grid_two_title}}">
-                            <button type="submit" class="btn btn-primary ml-4">Save</button>
+                            <button type="submit" class="btn btn-primary ml-4">Guardar</button>
                         </div>
                     </div>
                   </form>
@@ -43,9 +43,9 @@
               <div class="col-12">
                 <div class="card">
                   <div class="card-header">
-                    <h4>Footer Grid Two</h4>
+                    <h4>Footer Grid Dos</h4>
                     <div class="card-header-action">
-                        <a href="{{route('admin.footer-grid-two.create')}}" class="btn btn-primary"><i class="fas fa-plus"></i> Create New</a>
+                        <a href="{{route('admin.footer-grid-two.create')}}" class="btn btn-primary"><i class="fas fa-plus"></i> Crear nuevo</a>
                     </div>
                   </div>
                   <div class="card-body">
@@ -77,6 +77,9 @@
                         status: isChecked,
                         id: id
                     },
+                    headers: {
+        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+    },
                     success: function(data){
                         toastr.success(data.message)
                     },

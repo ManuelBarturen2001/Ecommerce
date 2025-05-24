@@ -1,10 +1,10 @@
 @extends('admin.layouts.master')
 
 @section('content')
-      <!-- Main Content -->
+      <!-- Contenido Principal -->
         <section class="section">
           <div class="section-header">
-            <h1>Withdraw Request List</h1>
+            <h1>Lista de Solicitudes de Retiro</h1>
           </div>
 
           <div class="section-body">
@@ -13,7 +13,7 @@
               <div class="col-12">
                 <div class="card">
                   <div class="card-header">
-                    <h4>All Requests</h4>
+                    <h4>Todas las Solicitudes</h4>
                   </div>
                   <div class="card-body">
                     {{ $dataTable->table() }}

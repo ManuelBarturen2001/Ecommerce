@@ -71,16 +71,17 @@ class WithdrawMethodDataTable extends DataTable
     public function getColumns(): array
     {
         return [
-            Column::make('id'),
-            Column::make('name'),
-            Column::make('minimum_amount'),
-            Column::make('maximum_amount'),
-            Column::make('withdraw_charge'),
+            Column::make('id')->title('ID'),
+            Column::make('name')->title('Nombre'),
+            Column::make('minimum_amount')->title('Monto Mínimo'),
+            Column::make('maximum_amount')->title('Monto Máximo'),
+            Column::make('withdraw_charge')->title('Cargo por Retiro'),
             Column::computed('action')
-            ->exportable(false)
-            ->printable(false)
-            ->width(100)
-            ->addClass('text-center'),
+                ->exportable(false)
+                ->printable(false)
+                ->width(100)
+                ->addClass('text-center')
+                ->title('Acción'),
         ];
     }
 

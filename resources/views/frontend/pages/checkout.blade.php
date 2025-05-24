@@ -1353,6 +1353,9 @@
                 url: "{{ route('user.checkout.form-submit') }}",
                 method: 'POST',
                 data: formData,
+                headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            },
                 beforeSend: function(){
                     $('#submitCheckoutForm').html('<i class="fas fa-spinner fa-spin"></i> Procesando...');
                 },

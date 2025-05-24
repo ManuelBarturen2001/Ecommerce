@@ -14,7 +14,6 @@
                 <div class="card">
                   <div class="card-header">
                     <h4>Crear Género</h4>
-
                   </div>
                   <div class="card-body">
                     <form action="{{route('admin.gender.store')}}" method="POST">

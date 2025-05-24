@@ -6,12 +6,12 @@
             @method('PUT')
 
             <div class="form-group">
-                <label>Site Name</label>
+                <label>Nombre del Sitio</label>
                 <input type="text" class="form-control" name="site_name" value="{{@$generalSettings->site_name}}">
             </div>
 
             <div class="form-group">
-                <label>Layout</label>
+                <label>Diseño</label>
                 <select name="layout" class="form-control">
                     <option {{@$generalSettings->layout == 'LTR' ? 'selected' : ''}} value="LTR">LTR</option>
                     <option {{@$generalSettings->layout == 'RTL' ? 'selected' : ''}} value="RTL">RTL</option>
@@ -19,31 +19,31 @@
             </div>
 
             <div class="form-group">
-                <label>Contact Email</label>
+                <label>Correo de Contacto</label>
                 <input type="text" class="form-control" name="contact_email" value="{{@$generalSettings->contact_email}}">
             </div>
 
             <div class="form-group">
-                <label>Contact Phone</label>
+                <label>Teléfono de Contacto</label>
                 <input type="text" class="form-control" name="contact_phone" value="{{@$generalSettings->contact_phone}}">
             </div>
 
             <div class="form-group">
-                <label>Contact Address</label>
+                <label>Dirección de Contacto</label>
                 <input type="text" class="form-control" name="contact_address" value="{{@$generalSettings->contact_address}}">
             </div>
 
             <div class="form-group">
-                <label>Google Map Url</label>
+                <label>URL de Google Maps</label>
                 <input type="text" class="form-control" name="map" value="{{@$generalSettings->map}}">
             </div>
 
             <hr>
 
             <div class="form-group">
-                <label>Default Currency Name</label>
+                <label>Nombre de la Moneda Predeterminada</label>
                 <select name="currency_name" class="form-control select2">
-                    <option value="">Select</option>
+                    <option value="">Seleccionar</option>
                     @foreach (config('settings.currecy_list') as $currency)
                         <option {{@$generalSettings->currency_name == $currency ? 'selected' : ''}} value="{{$currency}}">{{$currency}}</option>
                     @endforeach
@@ -51,14 +51,14 @@
             </div>
 
             <div class="form-group">
-                <label>Currency Icon</label>
+                <label>Icono de la Moneda</label>
                 <input type="text" class="form-control" name="currency_icon" value="{{@$generalSettings->currency_icon}}">
             </div>
 
             <div class="form-group">
-                <label>Timezone</label>
+                <label>Zona Horaria</label>
                 <select name="time_zone" class="form-control select2">
-                    <option value="">Select</option>
+                    <option value="">Seleccionar</option>
                     @foreach (config('settings.time_zone') as $key => $timeZone)
                         <option {{@$generalSettings->time_zone == $key ? 'selected' : ''}} value="{{$key}}">{{$key}}</option>
                     @endforeach
@@ -67,15 +67,16 @@
 
             {{-- ✅ Nuevo campo para el color del dashboard --}}
             <div class="form-group">
-                <label>Dashboard Primary Color</label>
+                <label>Color Primario del Dashboard</label>
                 <input id="colorInput" type="color" name="color" class="form-control" value="{{@$generalSettings->color ?? '#950D0D'}}">
             </div>
 
-            <button type="submit" class="btn btn-primary">Update</button>
+            <button type="submit" class="btn btn-primary">Actualizar</button>
         </form>
     </div>
 </div>
 </div>
+
 <script>
     function rgbToHex(r, g, b) {
         return "#" + 

@@ -183,6 +183,7 @@ Route::group(['middleware' =>['auth', 'verified'], 'prefix' => 'user', 'as' => '
     /** Payment Routes */
     Route::get('payment', [PaymentController::class, 'index'])->name('payment');
     Route::get('payment-success/{invoice_id}', [PaymentController::class, 'paymentSuccess'])->name('payment.success');
+    Route::get('payment-cancel', [PaymentController::class, 'paymentCancel'])->name('payment.cancel');
 
     /** Paypal routes */
     Route::get('paypal/payment', [PaymentController::class, 'payWithPaypal'])->name('paypal.payment');
@@ -192,9 +193,16 @@ Route::group(['middleware' =>['auth', 'verified'], 'prefix' => 'user', 'as' => '
     /** Stripe routes */
     Route::post('stripe/payment', [PaymentController::class, 'payWithStripe'])->name('stripe.payment');
 
+    /** Culqi routes */
+    Route::post('culqi-payment', [PaymentController::class, 'culqiPayment'])->name('culqi.payment');
+
     /** Razorpay routes */
     Route::post('razorpay/payment', [PaymentController::class, 'payWithRazorPay'])->name('razorpay.payment');
 
     /** COD routes */
     Route::get('cod/payment', [PaymentController::class, 'payWithCod'])->name('cod.payment');
+
+    /** IZI PAY ROUTES */
+    Route::post('izipay/create-session', [PaymentController::class, 'createIziPaySession'])->name('izipay.create-session');
+    Route::post('izipay/return', [PaymentController::class, 'handleIziPayReturn'])->name('izipay.return');
 });

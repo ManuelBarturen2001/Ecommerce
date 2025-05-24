@@ -1,10 +1,10 @@
 @extends('admin.layouts.master')
 
 @section('content')
-      <!-- Main Content -->
+      <!-- Contenido Principal -->
         <section class="section">
           <div class="section-header">
-            <h1>Customer list</h1>
+            <h1>Lista de Clientes</h1>
           </div>
 
           <div class="section-body">
@@ -13,7 +13,7 @@
               <div class="col-12">
                 <div class="card">
                   <div class="card-header">
-                    <h4>All customer</h4>
+                    <h4>Todos los clientes</h4>
                   </div>
                   <div class="card-body">
                     {{ $dataTable->table() }}
@@ -38,21 +38,24 @@
                 let id = $(this).data('id');
 
                 $.ajax({
-                    url: "{{route('admin.customer.status-change')}}",
+                    url: "{{ route('admin.customer.status-change') }}",
                     method: 'PUT',
                     data: {
                         status: isChecked,
                         id: id
                     },
+                    headers: {
+        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+    },
                     success: function(data){
-                        toastr.success(data.message)
+                        toastr.success(data.message);
                     },
                     error: function(xhr, status, error){
-                        console.log(error);
+                        console.error(error);
                     }
-                })
+                });
 
-            })
-        })
+            });
+        });
     </script>
 @endpush

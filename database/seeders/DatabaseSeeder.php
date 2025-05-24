@@ -23,5 +23,6 @@ class DatabaseSeeder extends Seeder
         $this->call(AdminProfileSeeder::class);
         $this->call(VendorShopProfileSeeder::class);
         $this->call(PeruLocationSeeder::class);
+        $this->call(IziPaySettingSeeder::class);
     }
 }

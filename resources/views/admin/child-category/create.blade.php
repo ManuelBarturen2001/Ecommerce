@@ -1,10 +1,10 @@
 @extends('admin.layouts.master')
 
 @section('content')
-      <!-- Main Content -->
+      <!-- Contenido Principal -->
         <section class="section">
           <div class="section-header">
-            <h1>Sub Category</h1>
+            <h1>Subcategoría</h1>
           </div>
 
           <div class="section-body">
@@ -13,40 +13,40 @@
               <div class="col-12">
                 <div class="card">
                   <div class="card-header">
-                    <h4>Create Sub Category</h4>
+                    <h4>Crear Subcategoría</h4>
 
                   </div>
                   <div class="card-body">
                     <form action="{{route('admin.child-category.store')}}" method="POST">
                         @csrf
                         <div class="form-group">
-                            <label for="inputState">Category</label>
+                            <label for="inputState">Categoría</label>
                             <select id="inputState" class="form-control main-category" name="category">
-                              <option value="">Select</option>
+                              <option value="">Seleccionar</option>
                               @foreach ($categories as $category)
                                 <option value="{{$category->id}}">{{$category->name}}</option>
                               @endforeach
                             </select>
                         </div>
                         <div class="form-group">
-                            <label for="inputState">Sub Category</label>
+                            <label for="inputState">Subcategoría</label>
                             <select id="inputState" class="form-control sub-category" name="sub_category">
-                              <option value="">Select</option>
+                              <option value="">Seleccionar</option>
 
                             </select>
                         </div>
                         <div class="form-group">
-                            <label>Name</label>
+                            <label>Nombre</label>
                             <input type="text" class="form-control" name="name" value="">
                         </div>
                         <div class="form-group">
-                            <label for="inputState">Status</label>
+                            <label for="inputState">Estado</label>
                             <select id="inputState" class="form-control" name="status">
-                              <option value="1">Active</option>
-                              <option value="0">Inactive</option>
+                              <option value="1">Activo</option>
+                              <option value="0">Inactivo</option>
                             </select>
                         </div>
-                        <button type="submmit" class="btn btn-primary">Create</button>
+                        <button type="submit" class="btn btn-primary">Crear</button>
                     </form>
                   </div>
 
@@ -71,7 +71,7 @@
                         id:id
                     },
                     success: function(data){
-                        $('.sub-category').html('<option value="">Select</option>')
+                        $('.sub-category').html('<option value="">Seleccionar</option>')
 
                         $.each(data, function(i, item){
                             $('.sub-category').append(`<option value="${item.id}">${item.name}</option>`)
@@ -86,3 +86,4 @@
         })
     </script>
 @endpush
+

@@ -10,7 +10,6 @@
                 <div class="breadcrumb-item">Retiro en Tienda</div>
             </div>
         </div>
-
         <div class="section-body">
             <div class="row">
                 <div class="col-12">
@@ -62,9 +61,9 @@
                                                 <a href="{{ route('admin.retiro-en-tienda.edit', $tienda->id) }}" class="btn btn-primary btn-sm">
                                                     <i class="fas fa-edit"></i>
                                                 </a>
-                                                <a href="{{ route('admin.retiro-en-tienda.cambiar-estado', $tienda->id) }}" class="btn btn-{{ $tienda->estado ? 'warning' : 'success' }} btn-sm">
+                                                <!-- <a href="{{ route('admin.retiro-en-tienda.cambiar-estado', $tienda->id) }}" class="btn btn-{{ $tienda->estado ? 'warning' : 'success' }} btn-sm">
                                                     <i class="fas fa-{{ $tienda->estado ? 'times' : 'check' }}"></i>
-                                                </a>
+                                                </a> -->
                                                 <form action="{{ route('admin.retiro-en-tienda.destroy', $tienda->id) }}" method="POST" class="d-inline">
                                                     @csrf
                                                     @method('DELETE')

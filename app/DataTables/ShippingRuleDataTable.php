@@ -107,18 +107,18 @@ class ShippingRuleDataTable extends DataTable
     public function getColumns(): array
     {
         return [
-
-            Column::make('id'),
-            Column::make('name'),
-            Column::make('type'),
-            Column::make('min_cost'),
-            Column::make('cost'),
-            Column::make('status'),
+            Column::make('id')->title('ID'),
+            Column::make('name')->title('Nombre'),
+            Column::make('type')->title('Tipo'),
+            Column::make('min_cost')->title('Costo Mínimo'),
+            Column::make('cost')->title('Costo'),
+            Column::make('status')->title('Estado'),
             Column::computed('action')
-            ->exportable(false)
-            ->printable(false)
-            ->width(200)
-            ->addClass('text-center'),
+                ->exportable(false)
+                ->printable(false)
+                ->width(200)
+                ->addClass('text-center')
+                ->title('Acción'),
         ];
     }
 

@@ -59,15 +59,16 @@ class GenderDataTable extends DataTable
     public function getColumns(): array
     {
         return [
-            Column::make('id')->width(50),
-            Column::make('name'),
-            Column::make('slug'),
-            Column::make('status')->width(100),
+            Column::make('id')->title('ID')->width(50),
+            Column::make('name')->title('Nombre'),
+            Column::make('slug')->title('Slug'),
+            Column::make('status')->title('Estado')->width(100),
             Column::computed('action')
                 ->exportable(false)
                 ->printable(false)
                 ->width(100)
-                ->addClass('text-center'),
+                ->addClass('text-center')
+                ->title('Acción'),
         ];
     }
 

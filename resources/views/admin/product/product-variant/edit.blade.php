@@ -1,10 +1,10 @@
 @extends('admin.layouts.master')
 
 @section('content')
-      <!-- Main Content -->
+      <!-- Contenido Principal -->
         <section class="section">
           <div class="section-header">
-            <h1>Product Variant</h1>
+            <h1>Variante de Producto</h1>
           </div>
 
           <div class="section-body">
@@ -13,7 +13,7 @@
               <div class="col-12">
                 <div class="card">
                   <div class="card-header">
-                    <h4>Update Variant</h4>
+                    <h4>Actualizar Variante</h4>
 
                   </div>
                   <div class="card-body">
@@ -21,17 +21,17 @@
                         @csrf
                         @method('PUT')
                         <div class="form-group">
-                            <label>Name</label>
+                            <label>Nombre</label>
                             <input type="text" class="form-control" name="name" value="{{$variant->name}}">
                         </div>
                         <div class="form-group">
-                            <label for="inputState">Status</label>
+                            <label for="inputState">Estado</label>
                             <select id="inputState" class="form-control" name="status">
-                              <option {{$variant->status == 1 ? 'selected' : ''}} value="1">Active</option>
-                              <option {{$variant->status == 0 ? 'selected' : ''}} value="0">Inactive</option>
+                              <option {{$variant->status == 1 ? 'selected' : ''}} value="1">Activo</option>
+                              <option {{$variant->status == 0 ? 'selected' : ''}} value="0">Inactivo</option>
                             </select>
                         </div>
-                        <button type="submmit" class="btn btn-primary">Update</button>
+                        <button type="submit" class="btn btn-primary">Actualizar</button>
                     </form>
                   </div>
 

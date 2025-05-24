@@ -43,26 +43,27 @@ class VendorProductDataTable extends DataTable
             return "<img width='70px' src='".asset($query->thumb_image)."' ></img>";
         })
         ->addColumn('type', function($query){
-            switch ($query->product_type) {
-                case 'new_arrival':
-                    return '<i class="badge bg-success">New Arrival</i>';
-                    break;
-                case 'featured_product':
-                    return '<i class="badge bg-warning">Featured Product</i>';
-                    break;
-                case 'top_product':
-                    return '<i class="badge bg-info">Top Product</i>';
-                    break;
+                switch ($query->product_type) {
+                    case 'new_arrival':
+                        return '<i class="badge badge-success">Nuevo en Llegada</i>';
+                        break;
+                    case 'featured_product':
+                        return '<i class="badge badge-warning">Destacado</i>';
+                        break;
+                    case 'top_product':
+                        return '<i class="badge badge-info">Producto Top</i>';
+                        break;
 
-                case 'best_product':
-                    return '<i class="badge bg-danger">Top Product</i>';
-                    break;
+                    case 'best_product':
+                        return '<i class="badge badge-danger">Mejor Producto</i>';
+                        break;
 
-                default:
-                    return '<i class="badge bg-dark">None</i>';
-                    break;
-            }
-        })
+                    default:
+                        return '<i class="badge badge-dark">None</i>';
+                        break;
+                }
+            })
+
         ->addColumn('status', function($query){
             if($query->status == 1){
 
@@ -122,18 +123,19 @@ class VendorProductDataTable extends DataTable
     public function getColumns(): array
     {
         return [
-            Column::make('id'),
-            Column::make('image')->width(150),
-            Column::make('name'),
-            Column::make('price'),
-            Column::make('approved'),
-            Column::make('type')->width(150),
-            Column::make('status'),
+            Column::make('id')->title('ID'),
+            Column::make('image')->width(150)->title('Imagen'),
+            Column::make('name')->title('Nombre'),
+            Column::make('price')->title('Precio'),
+            Column::make('approved')->title('Aprobado'),
+            Column::make('type')->width(150)->title('Tipo'),
+            Column::make('status')->title('Estado'),
             Column::computed('action')
-            ->exportable(false)
-            ->printable(false)
-            ->width(200)
-            ->addClass('text-center'),
+                ->title('Acción')
+                ->exportable(false)
+                ->printable(false)
+                ->width(200)
+                ->addClass('text-center'),
         ];
     }
 

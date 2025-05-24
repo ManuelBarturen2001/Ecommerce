@@ -5612,8 +5612,9 @@ WISHLIST PAGE START
 	LOGIN/REGISTER START
 =========================*/
 #wsus__login_register {
-  padding-top: 70px;
+  padding-top: 10px;
   position: relative;
+  padding-bottom: 20px;
 }
 
 .wsus__login_reg_area {
